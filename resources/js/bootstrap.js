@@ -36,6 +36,31 @@ if (token) {
 } else {
     console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
+axios.interceptors.request.use(config => {
+	config.headers['X-Requested-With'] = 'XMLHttpRequest';
+	return config;
+}, error => {
+	return Promise.reject(error);
+});
+/*
+axios.interceptors.response.use(response => {
+	return response;
+}, error => {
+	let errorResponseData = error.response.data;
+
+	const errors = ["token_invalid", "token_expired", "token_not_provided", "Unauthorized."];
+
+	if (errorResponseData.error && errors.includes(errorResponseData.error)) {
+		store.dispatch('unsetAuthUser')
+			.then(() => {
+				jwtToken.removeToken();
+				router.push({name: 'login'});
+			});
+	}
+
+	return Promise.reject(error);
+});
+*/
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
