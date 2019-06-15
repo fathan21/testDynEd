@@ -38,6 +38,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Media1',
   props: ['data'],
@@ -100,8 +102,13 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _components_Media1__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/Media1 */ "./resources/js/components/Media1.vue");
-/* harmony import */ var _components_Media2__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/Media2 */ "./resources/js/components/Media2.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _components_Media1__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/Media1 */ "./resources/js/components/Media1.vue");
+/* harmony import */ var _components_Media2__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/Media2 */ "./resources/js/components/Media2.vue");
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -147,47 +154,60 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Sidebar',
   components: {
-    Media1: _components_Media1__WEBPACK_IMPORTED_MODULE_0__["default"],
-    Media2: _components_Media2__WEBPACK_IMPORTED_MODULE_1__["default"]
+    Media1: _components_Media1__WEBPACK_IMPORTED_MODULE_1__["default"],
+    Media2: _components_Media2__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['getSidebar'])),
   data: function data() {
     return {
-      tab_v: '#1',
-      latest: [{
-        id: '1',
-        link: '/p/link',
-        date: '2019-05-01 19:00:00',
-        title: 'Spain going to made class football',
-        img: 'assets/img/img-list.jpg',
-        content_prev: 'Sed perspiciatis unde omnis iste natus voluptatem.',
-        rating: 5,
-        comment_count: 5
-      }],
-      populer: [{
-        id: '1',
-        link: '/p/link',
-        date: '2019-05-01 19:00:00',
-        title: 'Spain going to made class football P',
-        img: 'assets/img/img-list.jpg',
-        content_prev: 'Sed perspiciatis unde omnis iste natus voluptatem.',
-        rating: 5,
-        comment_count: 5
-      }],
-      most_comment: [{
-        id: '1',
-        link: '/p/link',
-        date: '2019-05-01 19:00:00',
-        title: 'Spain going to made class football P',
-        img: 'assets/img/img-list.jpg',
-        content_prev: 'Sed perspiciatis unde omnis iste natus voluptatem.',
-        rating: 5,
-        comment_count: 5
-      }]
+      tab_v: '#1'
+      /*
+      latest:[
+        {
+          id:'1',
+          link:'/p/link',
+          date:'2019-05-01 19:00:00',
+          title:'Spain going to made class football',
+          img:'assets/img/img-list.jpg',
+          content_prev: 'Sed perspiciatis unde omnis iste natus voluptatem.',
+          rating:5,
+          comment_count:5,
+        }
+      ],
+      populer:[
+        {
+          id:'1',
+          link:'/p/link',
+          date:'2019-05-01 19:00:00',
+          title:'Spain going to made class football P',
+          img:'assets/img/img-list.jpg',
+          content_prev: 'Sed perspiciatis unde omnis iste natus voluptatem.',
+          rating:5,
+          comment_count:5,
+        }
+      ],
+      most_comment:[
+        {
+          id:'1',
+          link:'/p/link',
+          date:'2019-05-01 19:00:00',
+          title:'Spain going to made class football P',
+          img:'assets/img/img-list.jpg',
+          content_prev: 'Sed perspiciatis unde omnis iste natus voluptatem.',
+          rating:5,
+          comment_count:5,
+        }
+      ]
+      */
+
     };
   },
   methods: {
@@ -221,6 +241,7 @@ var render = function() {
       [
         _c("router-link", { attrs: { to: _vm.data.link } }, [
           _c("div", {
+            staticClass: "skeleton",
             staticStyle: {
               width: "80px",
               height: "80px",
@@ -245,30 +266,11 @@ var render = function() {
           ])
         ],
         1
-      ),
-      _vm._v(" "),
-      _vm._m(0)
+      )
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "rating" }, [
-      _c("i", { staticClass: "fa fa-star" }),
-      _vm._v(" "),
-      _c("i", { staticClass: "fa fa-star" }),
-      _vm._v(" "),
-      _c("i", { staticClass: "fa fa-star" }),
-      _vm._v(" "),
-      _c("i", { staticClass: "fa fa-star" }),
-      _vm._v(" "),
-      _c("i", { staticClass: "fa fa-star-half-full" })
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -297,6 +299,7 @@ var render = function() {
       [
         _c("router-link", { attrs: { to: _vm.data.link } }, [
           _c("div", {
+            staticClass: "skeleton",
             staticStyle: {
               width: "80px",
               height: "80px",
@@ -414,7 +417,7 @@ var render = function() {
             class: { active: _vm.tab_v === "#1" },
             attrs: { id: "1" }
           },
-          _vm._l(_vm.latest, function(item) {
+          _vm._l(_vm.getSidebar.latest, function(item) {
             return _c("Media1", { key: item.id, attrs: { data: item } })
           }),
           1
@@ -427,38 +430,16 @@ var render = function() {
             class: { active: _vm.tab_v === "#2" },
             attrs: { id: "2" }
           },
-          _vm._l(_vm.populer, function(item) {
+          _vm._l(_vm.getSidebar.populer, function(item) {
             return _c("Media1", { key: item.id, attrs: { data: item } })
           }),
           1
         )
       ])
-    ]),
-    _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "most_comment" },
-      [
-        _vm._m(0),
-        _vm._v(" "),
-        _vm._l(_vm.most_comment, function(item) {
-          return _c("Media2", { key: item.id, attrs: { data: item } })
-        })
-      ],
-      2
-    )
+    ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "sidebar_title" }, [
-      _c("h2", [_vm._v("Most Commented")])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

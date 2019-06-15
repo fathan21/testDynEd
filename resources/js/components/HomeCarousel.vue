@@ -155,7 +155,7 @@
 export default {
     name: 'HomeCarousel',
     mounted() {
-        console.log("Component mounted.");
+        
     }
 };
 </script>

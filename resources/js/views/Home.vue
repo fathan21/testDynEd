@@ -3,6 +3,7 @@
           <!--
           <HomeCarousel></HomeCarousel>
           -->
+        <MediaSkolten v-if="loading"></MediaSkolten>
         <HomeCategory :category_home="getCategoryHome"></HomeCategory>
         <HomeGalery :data="getGaleryHome"></HomeGalery>
     </div>
@@ -23,14 +24,13 @@ export default {
     },
     data() {
         return {
-            loading: true,
+            loading: false,
         }
     },
     mounted() {
       if(this.getCategoryHome.length <= 0){
         this.getCategoryH();
       }
-
     },
     computed: {
         // mix the getters into computed with object spread operator
@@ -67,7 +67,7 @@ export default {
                 });
         },
         getGaleryyH() {
-            this.loading = true;
+            // this.loading = true;
             const parameter = {
                 client_secret: api.clientSecret,
             };

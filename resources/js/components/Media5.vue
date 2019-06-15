@@ -1,6 +1,6 @@
 <template>
     <div class="item">
-        <div class="video_thumb"><img :src="data.img" :alt="data.title"></div>
+        <div class="video_thumb skeleton"><img :src="data.img" :alt="data.title"></div>
         <div class="video_info">
             <div class="video_item_title">
                 <h3>

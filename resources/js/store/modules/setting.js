@@ -45,7 +45,6 @@ const actions = {
 */
 const getters = {
 	getSetting: (state) => {
-		console.log('getter');
 		return state.app;
 	}
 };

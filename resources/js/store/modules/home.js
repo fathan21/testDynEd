@@ -7,7 +7,8 @@
 */
 const initialState = {
 	category_home:[],
-	galery_home:[]
+	galery_home:[],
+	sidebar:{}
 };
 
 /*
@@ -21,6 +22,9 @@ const mutations = {
 	},
 	['SET_GALERY_HOME'](state, payload) {
 		state.galery_home = payload.galery_home;
+	},
+	['SET_SIDEBAR'](state, payload) {
+		state.sidebar = payload.sidebar;
 	}
 };
 
@@ -36,6 +40,9 @@ const actions = {
 	},
 	setGaleryHome: (context, galery_home) => {
 		context.commit('SET_GALERY_HOME', {galery_home})
+	},
+	setSidebar: (context, sidebar) => {
+		context.commit('SET_SIDEBAR', {sidebar})
 	}
 };
 
@@ -49,8 +56,10 @@ const getters = {
 		return state.category_home;
 	},
 	getGaleryHome: (state) => {
-		console.log()
 		return state.galery_home;
+	},
+	getSidebar: (state) => {
+		return state.sidebar;
 	}
 };
 

@@ -43,7 +43,6 @@
         }
     },
     created() {
-          console.log("Component mounted.");
     }
   };
 

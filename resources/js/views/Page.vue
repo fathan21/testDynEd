@@ -1,21 +1,34 @@
 <template>
     <!-- Feature Category Section & sidebar -->
     <section id="feature_category_section" class="feature_category_section single-page section_wrapper">
+        <MediaSkolten v-if="loading"></MediaSkolten>
         <div class="container">
             <div class="row">
                 <div class="col-md-9">
                     <div class="single_content_layout">
-                        <div class="item feature_news_item">
-                            <div class="item_img">
-                                <img class="img-responsive" src="assets/img/img-single.jpg" alt="Chania">
+
+                        <div class="item feature_news_item"  style="postion:relative">
+                            <div class="item_img" v-if="data.img && data.type_page !='galery' ">
+                                <img class="img-responsive" :src="data.img" :alt="data.title">
+                            </div>
+                            <div class="galery-div">
+                                <carousel v-if="data.imgs" id="feature_video_slider"  :items="1" :nav="true" :autoplay="false" :loop="false" :dots="false">
+
+                                    <div class="item_img" v-for="item in data.imgs">
+                                        <img class="img-responsive" :src="item.img" :alt="item.name">
+                                    </div>  
+                                    <template slot="prev"><span class="prev-galery"><i class="fa fa-arrow-circle-left"></i></span></template>
+                                    <template slot="next"><span class="next-galery"><i class="fa fa-arrow-circle-right"></i></span></template>
+                                </carousel>
                             </div>
                             <!--item_img-->
                             <div class="item_wrapper">
                                 <div class="news_item_title">
-                                    <h2><a href="#">Leo Messi is boss of the bosses in football world.</a></h2>
+                                    <h2><a href="#">{{data.title}}</a></h2>
                                 </div>
                                 <!--news_item_title-->
-                                <div class="item_meta"><a href="#">20Aug- 2015,</a> by:<a href="#">Jhonson</a></div>
+                                <div class="item_meta" v-if="data.date"><a href="#">{{data.date | toDateIndo }},</a> by:<a href="#">{{data.writer}}</a></div>
+                                <!--
                                 <span class="rating">
                                     <i class="fa fa-star"></i>
                                     <i class="fa fa-star"></i>
@@ -23,182 +36,97 @@
                                     <i class="fa fa-star"></i>
                                     <i class="fa fa-star-half-full"></i>
                                 </span>
-                                <div class="single_social_icon">
-                                    <a class="icons-sm fb-ic" href="#"><i class="fa fa-facebook"></i><span>Facebook</span></a>
-                                    <!--Twitter-->
-                                    <a class="icons-sm tw-ic" href="#"><i class="fa fa-twitter"></i><span>Twitter</span></a>
-                                    <!--Google +-->
-                                    <a class="icons-sm gplus-ic" href="#"><i class="fa fa-google-plus"></i><span>Google Plus</span></a>
-                                    <!--Linkedin-->
-                                    <a class="icons-sm li-ic" href="#"><i class="fa fa-linkedin"></i><span>Linkedin</span></a>
+                                -->
+                                <!--
+                                <div class="single_social_icon" >
+                                    <a class="icons-sm fb-ic"  v-on:click="share('fb')"><i class="fa fa-facebook"></i><span>Facebook</span></a>
+                                    <a class="icons-sm tw-ic"  v-on:click="share('tw')"><i class="fa fa-twitter"></i><span>Twitter</span></a>
                                 </div>
+                                -->
+                                <social-sharing  v-if="data.meta"
+                                      :url="data.meta.url"
+                                      :title="data.meta.title"
+                                      :description="data.meta.description"
+                                      inline-template>
+                                      <div class="single_social_icon">
+                                          <network network="facebook"  >
+                                              <a class="icons-sm fb-ic">
+                                                  <i class="fa fa-facebook"></i><span>Facbook</span>
+                                              </a>
+                                          </network>
+                                          <network network="twitter"  >
+                                              <a class="icons-sm tw-ic">
+                                                  <i class="fa fa-twitter"></i><span>Twitter</span>
+                                              </a>
+                                          </network>
+                                          <network network="whatsapp"  >
+                                              <a class="icons-sm whatsapp-ic">
+                                                  <i class="fa fa-whatsapp"></i><span>Whatsapp</span>
+                                              </a>
+                                          </network>
+                                          <network network="line"  >
+                                              <a class="icons-sm line-ic">
+                                                  <i class="fa fa-commenting-o"></i><span>Line</span>
+                                              </a>
+                                          </network>
+                                          <network network="email"  >
+                                              <a class="icons-sm li-ic">
+                                                  <i class="fa fa-envelope"></i><span>Email</span>
+                                              </a>
+                                          </network>
+                                      </div>
+                                </social-sharing>
                                 <!--social_icon1-->
-                                <div class="item_content">
-                                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
-                                    <br /><br />
-                                    Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
-                                    <br /><br />
-                                    Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam
+                                <div class="item_content" v-html="data.content">
+
                                 </div>
+
+                                    <div v-for="item in data.content_slide">
+                                        <h3>
+                                            {{item.display_order}}.  {{item.title}}
+                                        </h3>
+                                        <div class="item_img" v-if="item.img">
+                                            <img class="img-responsive" :src="item.img" :alt="item.title">
+                                        </div>
+                                        <div class="item_content" v-html="item.content">
+
+                                        </div>
+                                    </div>
+
                                 <!--item_content-->
-                                <div class="category_list">
-                                    <a href="#">Messi</a>
-                                    <a href="#">Leonel</a>
-                                    <a href="#">Bercelona</a>
-                                    <a href="#">Argentina</a>
-                                    <a href="#">Football</a>
+                                <div class="category_list"  v-if="data.key_word"> 
+                                    <a href="#" v-for="item in (data.key_word).split(',')" >{{item}}</a>
                                 </div>
                                 <!--category_list-->
                             </div>
                             <!--item_wrapper-->
                         </div>
+
+
                         <!--feature_news_item-->
-                        <div class="single_related_news">
+                        <div class="single_related_news" v-if="related.length > 0">
                             <div class="single_media_title">
                                 <h2>Related News</h2>
                             </div>
                             <div class="media_wrapper">
-                                <div class="media">
-                                    <div class="media-left">
-                                        <a href="#"><img class="media-object" src="assets/img/img-list5.jpg" alt="Generic placeholder image"></a>
-                                    </div>
-                                    <!--media-left-->
-                                    <div class="media-body">
-                                        <h4 class="media-heading"><a href="#">Machester United start the player
-                                            </a></h4>
-                                        <div class="media_meta"><a href="#">20Aug- 2015,</a> by:<a href="#">Jhonson</a></div>
-                                        <div class="media_content">
-                                            <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore</p>
-                                        </div>
-                                        <!--media_content-->
-                                    </div>
-                                    <!--media-body-->
-                                </div>
-                                <!--media-->
-                                <div class="media">
-                                    <div class="media-left">
-                                        <a href="#"><img class="media-object" src="assets/img/img-list2.jpg" alt="Generic placeholder image"></a>
-                                    </div>
-                                    <!--media-left-->
-                                    <div class="media-body">
-                                        <h4 class="media-heading"><a href="#">Machester United start the player
-                                            </a></h4>
-                                        <div class="media_meta"><a href="#">20Aug- 2015,</a> by:<a href="#">Jhonson</a></div>
-                                        <div class="media_content">
-                                            <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore</p>
-                                        </div>
-                                        <!--media_content-->
-                                    </div>
-                                    <!--media-body-->
-                                </div>
-                                <!--media-->
-                                <div class="media">
-                                    <div class="media-left">
-                                        <a href="#"><img class="media-object" src="assets/img/img-list3.jpg" alt="Generic placeholder image"></a>
-                                    </div>
-                                    <!--media-left-->
-                                    <div class="media-body">
-                                        <h4 class="media-heading"><a href="#">Machester United start the player
-                                            </a></h4>
-                                        <div class="media_meta"><a href="#">20Aug- 2015,</a> by:<a href="#">Jhonson</a></div>
-                                        <div class="media_content">
-                                            <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore</p>
-                                        </div>
-                                        <!--media_content-->
-                                    </div>
-                                    <!--media-body-->
-                                </div>
-                                <!--media-->
+                                <Media6 v-for="item in related" :data="item" v-bind:key="item.id"></Media6>
                             </div>
                             <!--media_wrapper-->
                         </div>
                         <!--single_related_news-->
+                        <!--
                         <div class="ad">
                             <img class="img-responsive" src="assets/img/img-single-ad.jpg" alt="Chania">
                         </div>
-                        <div class="readers_comment">
-                            <div class="single_media_title">
-                                <h2>Related Comments</h2>
-                            </div>
-                            <div class="media">
-                                <div class="media-left">
-                                    <a href="#">
-                                        <img alt="64x64" class="media-object" data-src="assets/img/img-author1.jpg" src="assets/img/img-author1.jpg" data-holder-rendered="true">
-                                    </a>
-                                </div>
-                                <div class="media-body">
-                                    <h2 class="media-heading">Sr. Ryan</h2>
-                                    But who has any right to find fault with a man who chooses to enjoy a pleasure that has
-                                    no annoying consequences, or one who avoids a pain that produces no resultant pleasure?
-                                    <div class="comment_article_social">
-                                        <a href="#"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></a>
-                                        <a href="#"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></a>
-                                        <a href="#"><span class="reply_ic">Reply </span></a>
-                                    </div>
-                                    <div class="media reply">
-                                        <div class="media-left">
-                                            <a href="#">
-                                                <img alt="64x64" class="media-object" data-src="assets/img/img-author2.jpg" src="assets/img/img-author2.jpg" data-holder-rendered="true">
-                                            </a>
-                                        </div>
-                                        <div class="media-body">
-                                            <h2 class="media-heading">Admin</h2>
-                                            But who has any right to find fault with a man who chooses to enjoy a pleasure
-                                            that has no annoying consequences, or one who avoids a pain that produces no
-                                            resultant pleasure?
-                                            <div class="comment_article_social">
-                                                <a href="#"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></a>
-                                                <a href="#"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></a>
-                                                <a href="#"><span class="reply_ic"> Reply </span></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="media">
-                                <div class="media-left">
-                                    <a href="#">
-                                        <img alt="64x64" class="media-object" data-src="assets/img/img-author1.jpg" src="assets/img/img-author1.jpg" data-holder-rendered="true">
-                                    </a>
-                                </div>
-                                <div class="media-body">
-                                    <h2 class="media-heading">S. Joshep</h2>
-                                    But who has any right to find fault with a man who chooses to enjoy a pleasure that has
-                                    no annoying consequences, or one who avoids a pain that produces no resultant pleasure?
-                                    <div class="comment_article_social">
-                                        <a href="#"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></a>
-                                        <a href="#"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></a>
-                                        <a href="#"><span class="reply_ic"> Reply </span></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--readers_comment-->
-                        <div class="add_a_comment">
-                            <div class="single_media_title">
-                                <h2>Add a Comment</h2>
-                            </div>
-                            <div class="comment_form">
-                                <form>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" id="inputName" placeholder="Name">
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" id="inputEmail" placeholder="Email">
-                                    </div>
-                                    <div class="form-group comment">
-                                        <textarea class="form-control" id="inputComment" placeholder="Comment"></textarea>
-                                    </div>
-                                    <button type="submit" class="btn btn-submit red">Submit</button>
-                                </form>
-                            </div>
-                            <!--comment_form-->
-                        </div>
+                        -->
+                        <!--
+                        <Comment :data="comment"></Comment>
+                        -->
                         <!--add_a_comment-->
                     </div>
                     <!--single_content_layout-->
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3" v-if="!loading"> 
                 	<Sidebar></Sidebar>
                 </div>
             </div>
@@ -207,13 +135,102 @@
     <!--feature_category_section-->
 </template>
 <script>
-
+import carousel from 'vue-owl-carousel';
+var SocialSharing = require('vue-social-sharing');
 import Sidebar from '../components/Sidebar';
+import Comment from '../components/Comment';
+import Media6 from '../components/Media6';
+import { api } from "../api";
 export default {
     name: "Page",
   	components: {
-  		Sidebar
+  		Sidebar,
+        Comment,
+        Media6,
+        SocialSharing,
+        carousel
   	},
+    watch:{
+        $route (to, from){
+            this.filter.link = this.$router.history.current.params.link;
+            this.getData();
+        }
+    },
+    created() {
+        this.filter.link = this.$router.history.current.params.link;
+        this.getData();
+
+    },
+    data() {
+        return {
+            loading: true,
+            filter:{
+                link:''
+            },
+            data: {},
+            comment: {},
+            related:[]
+        }
+    },
+    methods: {
+
+        share(tp){
+            alert(tp);
+        },
+        getData() {
+            this.loading=true;
+            const parameter = {
+                client_secret: api.clientSecret,
+                filter:this.filter
+            };
+            window.axios.post(api.news_detail+`/${this.filter.link}`,parameter)
+                .then(res => {
+                    this.loading=false;
+                    let r = res.data;
+                    let app = this;
+                    this.data = r.data;
+                    this.data.meta.url = window.location.href;
+                    if(this.data.type_page!='page'){
+                        this.getRelated();
+                    }
+                    this.meta.set(this.data.meta);
+                })
+                .catch(err => {
+                    this.loading=false;
+                    // console.log(err);
+                });
+        },
+        getRelated() {
+            const parameter = {
+                client_secret: api.clientSecret,
+                filter:this.filter
+            };
+            window.axios.post(api.news_detail_related+`/${this.filter.link}`, parameter)
+                .then(res => {
+                    let r = res.data;
+                    let app = this;
+                    this.related = r.data;
+                })
+                .catch(err => {
+                    // console.log(err);
+                });
+        },
+        getComment() {
+            const parameter = {
+                client_secret: api.clientSecret,
+                filter:this.filter
+            };
+            window.axios.post(api.news_detail_comment, parameter)
+                .then(res => {
+                    let r = res.data;
+                    let app = this;
+                    this.comment = r.data;
+                })
+                .catch(err => {
+                    // console.log(err);
+                });
+        }
+    },
 };
 
 </script>

@@ -23,12 +23,15 @@
     </section>
 </template>
 <script>
+
+import carousel from 'vue-owl-carousel';
 import Media5 from '../components/Media5';
 import {mapGetters } from 'vuex';
 export default {
     name: 'HomeGalery',
     components: {
-        Media5
+        Media5,
+        carousel
     },
     props: ['data'],
     created() {

@@ -1,7 +1,8 @@
 <template>
     <div class="item feature_news_item">
         <div class="item_wrapper">
-            <div class="item_img_background" v-bind:style="{ 'background-image': 'url(' + data.img + ')' }">
+            <div class="item_img_background 
+            " v-bind:style="{ 'background-image': 'url(' + data.img + ')' }">
 
             </div>
             <!--item_img-->

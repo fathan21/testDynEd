@@ -23,5 +23,8 @@ Route::group(['prefix' => 'v1'], function($app)
   $app->any('/category_home','Api\SettingController@categoryHome');
   $app->any('/galery_home','Api\SettingController@galeryHome');
 
-  $app->any('/populer','Api\SettingController@populer');
+  $app->any('/sidebar','Api\SettingController@sidebar');
+  $app->any('/news','Api\SettingController@news');
+  $app->any('/news_detail/{link}','Api\SettingController@news_detail');
+  $app->any('/news_detail_related/{link}','Api\SettingController@news_detail_related');
 });
