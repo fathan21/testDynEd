@@ -4,12 +4,12 @@
     <section id="feature_category_section" class="feature_category_section category_page section_wrapper">
 
         <MediaSkolten v-if="loading"></MediaSkolten>
-        <div class="container">
+        <div class="container" v-if="!loading && !error">
             <div class="row">
                 <div class="col-md-9">
                     <div class="row">
                         <div class="col-md-12">
-                            <Media4 v-if="filter.page==1 && main_news.id" :data="main_news"></Media4>
+                            <Media4 v-if="filter.page==1 && main_news" :data="main_news"></Media4>
                             <!--feature_news_item-->
                         </div>
                         <!--col-md-6-->
@@ -62,7 +62,8 @@ export default {
     },
     data() {
         return {
-            loading: true,
+            loading: false,
+            error:false,
             filter:{
                 page:1,
                 limit: 6,

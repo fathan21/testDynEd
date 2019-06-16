@@ -2,7 +2,7 @@
     <!-- Feature Category Section & sidebar -->
     <section id="feature_category_section" class="feature_category_section single-page section_wrapper">
         <MediaSkolten v-if="loading"></MediaSkolten>
-        <div class="container">
+        <div class="container" v-if="!loading && !error">
             <div class="row">
                 <div class="col-md-9">
                     <div class="single_content_layout">
@@ -163,7 +163,8 @@ export default {
     },
     data() {
         return {
-            loading: true,
+            loading: false,
+            error: false,
             filter:{
                 link:''
             },

@@ -6,7 +6,7 @@
         <div class="copyright-section">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-3 copy-footer">
                         <router-link class="page-scroll" to="/p/tentang-kami">
                            Tentang Kami
                         </router-link>
@@ -18,7 +18,7 @@
                         </div>
                     </div>
                     <!--col-xs-6-->
-                    <div class="col-md-3">
+                    <div class="col-md-3 copy-footer">
 
                         
                         <router-link class="page-scroll" to="/p/hubungi-kami">

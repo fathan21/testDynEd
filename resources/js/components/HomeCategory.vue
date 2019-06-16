@@ -4,7 +4,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-9">
-                    <HomeCategoryLayout v-for="item in category_home" :data="item" v-bind:key="item.id" ></HomeCategoryLayout>
+                    <HomeCategoryLayout v-for="item in category_home" v-if="item.news.length > 0" :data="item" v-bind:key="item.id" ></HomeCategoryLayout>
                     <!--
                     <div id="more_news_item" class="more_news_item">
                         <div class="more_news_heading">

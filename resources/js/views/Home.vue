@@ -4,8 +4,8 @@
           <HomeCarousel></HomeCarousel>
           -->
         <MediaSkolten v-if="loading"></MediaSkolten>
-        <HomeCategory :category_home="getCategoryHome"></HomeCategory>
-        <HomeGalery :data="getGaleryHome"></HomeGalery>
+        <HomeCategory v-if="!loading && !error" :category_home="getCategoryHome"></HomeCategory>
+        <HomeGalery v-if="!loading && !error" :data="getGaleryHome"></HomeGalery>
     </div>
 </template>
 <script>
@@ -25,6 +25,7 @@ export default {
     data() {
         return {
             loading: false,
+            error:false,
         }
     },
     mounted() {

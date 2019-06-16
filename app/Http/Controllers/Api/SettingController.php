@@ -88,9 +88,12 @@ class SettingController extends Controller
 
             $q = $this->queryNews(" AND h.id = '".$category['id']."' ORDER BY publish_date DESC LIMIT 1 ");
             $news_q = DB::select(DB::raw($q));
-            $news_q[0]->content_prev = substr(strip_tags($news_q[0]->content_prev),0,50)." ...";
-            $news_q[0]->link = '/p/'.$news_q[0]->id.'-'.$this->slug($news_q[0]->title);
-            $category['news_header'] = $news_q[0];
+            if(isset($news_q[0])){
+                    
+                $news_q[0]->content_prev = substr(strip_tags($news_q[0]->content_prev),0,50)." ...";
+                $news_q[0]->link = '/p/'.$news_q[0]->id.'-'.$this->slug($news_q[0]->title);
+                $category['news_header'] = $news_q[0];   
+            }
 
             $data[] = $category;
         }
@@ -319,12 +322,14 @@ class SettingController extends Controller
         $q = $this->queryNews(" ORDER BY publish_date DESC LIMIT 5 ");
         $news_q = DB::select(DB::raw($q));
         $latest = array();
+        $q_where = '';
         foreach ($news_q as $new_q) {
                 $new_q->content_prev = substr(strip_tags($new_q->content_prev),0,50)." ...";
                 $new_q->link = '/p/'.$new_q->id.'-'.$this->slug($new_q->title);
                 $latest[] = $new_q;
         }
 
+        $q_where = '';
         $popular_id = $this->getPopularId();
         if($popular_id!=''){
             $q_where = " AND a.id IN ($popular_id)";

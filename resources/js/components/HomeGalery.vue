@@ -8,7 +8,7 @@
                         <div class="feature_video_title">
                             <h2>Galeri</h2>
                         </div>
-                        <carousel v-if="data.length > 0" id="feature_video_slider" class="">
+                        <carousel v-if="data.length > 0" id="feature_video_slider" class="" :responsive="{0:{items:1,nav:false},600:{items:2,nav:false},600:{items:3,nav:false}}">
                             <Media5 v-for="item in data" :data="item" v-bind:key="item.id"></Media5>
                         </carousel>
                         <!--feature_video_slider-->
