@@ -12,7 +12,7 @@ class SettingController extends Controller
     {
         $this->base_img = url('assets/img/galery/');
         $this->categories = array(
-            array('name'=>'Berita Persija', 'link'=>'berita-persija', 'id'=>'3','class'=>'red'),
+            array('name'=>'Persija', 'link'=>'berita-persija', 'id'=>'3','class'=>'red'),
             array('name'=>'Artikel', 'link'=>'artikel', 'id'=>'4','class'=>'blue'),
             array('name'=>'Acara', 'link'=>'acara', 'id'=>'16','class'=>'teal'),
         );
@@ -23,53 +23,64 @@ class SettingController extends Controller
         $logo = url($data->logo);
         $data->logo = url($data->logo);
 
-        $data->menu = array(
+        $data->menu = $this->getCategoryMenu($logo);
+        $return['data'] = $data;
+        $return['error'] = false;
+        $return['msg'] = "success";
+        return $return;
+    }
+    public function getCategoryMenu($logo)
+    {
+
+        $q= " SELECT name, id FROM menu WHERE parent = 1 ORDER BY seq ASC";
+        $menus = DB::select(DB::raw($q));
+        $menu = array(
             array('name'=>'Beranda','link'=>'/',
+                    'open'=>false,
+                    'child'=>[],
                     'meta'=>array(
                         'title'=>'Beranda | Jacatranet',
                         'description'=>'Sedikit berita, foto dan video tentang Persija Jakarta dan Urban Lifestyle',
                         'keywords'=>'berita, artikel, foto, dan video Tentang Persija Jakarta, Jakmania, Urban Lifestyle',
                         'img'=>$logo,
                     )
-                ),
-            array('name'=>'Berita Persija','link'=>'/c/berita-persija',
-                    'meta'=>array(
-                        'title'=>' Berita Persija | Jacatranet',
-                        'description'=>'Sedikit berita, foto dan video tentang Persija Jakarta dan Urban Lifestyle',
-                        'keywords'=>'berita, artikel, foto, dan video Tentang Persija Jakarta, Jakmania, Urban Lifestyle',
-                        'img'=>$logo,
-                    )
-                ),
-            array('name'=>'Artikel','link'=>'/c/artikel',
-                    'meta'=>array(
-                        'title'=>'Artikel | Jacatranet',
-                        'description'=>'Sedikit berita, foto dan video tentang Persija Jakarta dan Urban Lifestyle',
-                        'keywords'=>'berita, artikel, foto, dan video Tentang Persija Jakarta, Jakmania, Urban Lifestyle',
-                        'img'=>$logo,
-                    )
-            ),
-            array('name'=>'Acara','link'=>'/c/acara',
-                    'meta'=>array(
-                        'title'=>'Acara | Jacatranet',
-                        'description'=>'Sedikit berita, foto dan video tentang Persija Jakarta dan Urban Lifestyle',
-                        'keywords'=>'berita, artikel, foto, dan video Tentang Persija Jakarta, Jakmania, Urban Lifestyle',
-                        'img'=>$logo,
-                    )
-            ),
-            array('name'=>'Galeri','link'=>'/c/galery',
-                    'meta'=>array(
-                        'title'=>'Galeri | Jacatranet',
-                        'description'=>'Sedikit berita, foto dan video tentang Persija Jakarta dan Urban Lifestyle',
-                        'keywords'=>'berita, artikel, foto, dan video Tentang Persija Jakarta, Jakmania, Urban Lifestyle',
-                        'img'=>$logo,
-                    )
-            ),
+                )
         );
-
-        $return['data'] = $data;
-        $return['error'] = false;
-        $return['msg'] = "success";
-        return $return;
+        foreach ($menus as $v) {
+            $q= " SELECT id,name FROM menu WHERE parent = $v->id ORDER BY seq ASC";
+            $detail = DB::select(DB::raw($q));
+            $child = array();
+            foreach ($detail as $k) {
+                $child[] = array('name'=>$k->name,'link'=>'/c/'.$this->slug($k->name),
+                    'id'=>$k->id,
+                    'meta'=>array(
+                        'title'=>$k->name.' | Jacatranet',
+                        'description'=>'Sedikit berita, foto dan video tentang Persija Jakarta dan Urban Lifestyle',
+                        'keywords'=>'berita, artikel, foto, dan video Tentang Persija Jakarta, Jakmania, Urban Lifestyle',
+                        'img'=>$logo
+                    )
+                );
+            }
+            $menu[] = 
+                array('name'=>$v->name,'link'=>'/c/'.$this->slug($v->name),
+                    'id'=>$v->id,
+                    'child'=>$child,
+                    'open'=>false,
+                    'meta'=>array(
+                        'title'=>$v->name.' | Jacatranet',
+                        'description'=>'Sedikit berita, foto dan video tentang Persija Jakarta dan Urban Lifestyle',
+                        'keywords'=>'berita, artikel, foto, dan video Tentang Persija Jakarta, Jakmania, Urban Lifestyle',
+                        'img'=>$logo,
+                    )
+                );
+        }
+        /*
+        echo "<pre>";
+        print_r($menu);
+        echo "</pre>";
+        die;
+        */
+        return $menu;
     }
     public function categoryHome()
     {
@@ -460,12 +471,15 @@ class SettingController extends Controller
         $data = json_decode(json_encode($data),true);
         $data['type_page'] = $type;
 
-        $data['meta'] = array(
-            'title'=>$data['title'].' | Jacatranet',
-            'description'=>isset($data['description'])?$data['description']: $data['title']." - ". substr(strip_tags($data['content']),0,100),
-            'keywords'=>isset($data['key_word'])?$data['key_word']:'berita, artikel, foto, dan video Tentang Persija Jakarta, Jakmania, Urban Lifestyle',
-            'img'=>isset($data['img'])?$data['img']:'',
-        );
+        if(isset($data['title'])){
+
+            $data['meta'] = array(
+                'title'=>$data['title'].' | Jacatranet',
+                'description'=>isset($data['description'])?$data['description']: $data['title']." - ". substr(strip_tags($data['content']),0,100),
+                'keywords'=>isset($data['key_word'])?$data['key_word']:'berita, artikel, foto, dan video Tentang Persija Jakarta, Jakmania, Urban Lifestyle',
+                'img'=>isset($data['img'])?$data['img']:'',
+            );   
+        }
 
         $return['data'] = $data;
         $return['error'] = false;

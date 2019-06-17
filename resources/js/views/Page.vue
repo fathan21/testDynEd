@@ -2,6 +2,9 @@
     <!-- Feature Category Section & sidebar -->
     <section id="feature_category_section" class="feature_category_section single-page section_wrapper">
         <MediaSkolten v-if="loading"></MediaSkolten>
+        <div v-if="error && !loading" class="text-center">
+            plesae try again, <br><a v-on:click="getData()" class="btn btn btn-danger btn-sm">try</a>
+        </div>
         <div class="container" v-if="!loading && !error">
             <div class="row">
                 <div class="col-md-9">
@@ -187,6 +190,7 @@ export default {
             window.axios.post(api.news_detail+`/${this.filter.link}`,parameter)
                 .then(res => {
                     this.loading=false;
+                    this.error  = false;
                     let r = res.data;
                     let app = this;
                     this.data = r.data;
@@ -198,6 +202,7 @@ export default {
                 })
                 .catch(err => {
                     this.loading=false;
+                    this.error  = true;
                     // console.log(err);
                 });
         },

@@ -4,11 +4,17 @@
     <section id="feature_category_section" class="feature_category_section category_page section_wrapper">
 
         <MediaSkolten v-if="loading"></MediaSkolten>
+        <div v-if="error && !loading" class="text-center">
+            plesae try again, <br><a v-on:click="getData()" class="btn btn btn-danger btn-sm">try</a>
+        </div>
         <div class="container" v-if="!loading && !error">
             <div class="row">
                 <div class="col-md-9">
                     <div class="row">
                         <div class="col-md-12">
+                            <div v-if="data.length <=0" class="text-center">
+                                <h2>Data not available</h2>
+                            </div>
                             <Media4 v-if="filter.page==1 && main_news" :data="main_news"></Media4>
                             <!--feature_news_item-->
                         </div>
@@ -87,6 +93,7 @@ export default {
             window.axios.post(api.news, parameter)
                 .then(res => {
                     this.loading=false;
+                    this.error = false;
                     let r = res.data;
                     let app = this;
                     this.data = r.data;
@@ -95,6 +102,7 @@ export default {
                 })
                 .catch(err => {
                     this.loading=false;
+                    this.error = true;
                     // console.log(err);
                 });
         },

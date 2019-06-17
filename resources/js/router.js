@@ -14,7 +14,7 @@ const Search = () => import(/* webpackChunkName: "assets/js/err" */'../js/views/
 Vue.use(Router);
 
 export default new Router({
-  mode: 'history', // https://router.vuejs.org/api/#mode
+  mode: 'hash', // history hash https://router.vuejs.org/api/#mode
   // linkActiveClass: 'open active',
   scrollBehavior: () => ({ y: 0 }),
   routes: [
