@@ -9,7 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable
 {
     use Notifiable;
-
+    protected $table = 'user';
     /**
      * The attributes that are mass assignable.
      *
@@ -36,4 +36,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    //const CREATED_AT = 'creation_date';
+    //const UPDATED_AT = 'last_update';
+    //public $timestamps = false;
+    //protected $keyType = 'string';
+    // protected $primaryKey = 'flight_id';
 }

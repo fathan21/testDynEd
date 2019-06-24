@@ -17,14 +17,20 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::group(['prefix' => 'v1'], function($app)
+Route::group(['prefix' => 'v1','namespace' => 'Api'], function($app)
 {
-  $app->any('/setting','Api\SettingController@get');
-  $app->any('/category_home','Api\SettingController@categoryHome');
-  $app->any('/galery_home','Api\SettingController@galeryHome');
+  $app->any('/setting','SettingController@get');
+  $app->any('/category_home','SettingController@categoryHome');
+  $app->any('/galery_home','SettingController@galeryHome');
 
-  $app->any('/sidebar','Api\SettingController@sidebar');
-  $app->any('/news','Api\SettingController@news');
-  $app->any('/news_detail/{link}','Api\SettingController@news_detail');
-  $app->any('/news_detail_related/{link}','Api\SettingController@news_detail_related');
+  $app->any('/sidebar','SettingController@sidebar');
+  $app->any('/news','SettingController@news');
+  $app->any('/news_detail/{link}','SettingController@news_detail');
+  $app->any('/news_detail_related/{link}','SettingController@news_detail_related');
+});
+//Route::group(['prefix' => 'v1/admin', 'middleware' => ['auth:api', 'owner']], function(){
+Route::group(['prefix' => 'v1/admin','namespace' => 'Api\admin', 'middleware' => ['cors']], function($app){
+  $app->any('/login','AuthController@login');
+  $app->resource('/users','UserController');
+
 });

@@ -78,8 +78,7 @@
 
     <!-- Scripts -->
     <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
-    <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('assets/js/app.js') }}"></script>
+    <script src="{{ asset('assets/js/app.js?v=123') }}"></script>
     <script src="{{ url('assets/js/MediaSkolten.js') }}"></script>
     <!-- Theme Script File-->
     <script src="assets/js/script.js"></script>

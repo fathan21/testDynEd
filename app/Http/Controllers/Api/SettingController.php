@@ -11,11 +11,7 @@ class SettingController extends Controller
     public function __construct()
     {
         $this->base_img = url('assets/img/galery/');
-        $this->categories = array(
-            array('name'=>'Persija', 'link'=>'berita-persija', 'id'=>'3','class'=>'red'),
-            array('name'=>'Artikel', 'link'=>'artikel', 'id'=>'4','class'=>'blue'),
-            array('name'=>'Acara', 'link'=>'acara', 'id'=>'16','class'=>'teal'),
-        );
+        $this->categories = $this->getCategoryMM();
     }
     public function get()
     {
@@ -74,21 +70,76 @@ class SettingController extends Controller
                     )
                 );
         }
-        /*
-        echo "<pre>";
-        print_r($menu);
-        echo "</pre>";
-        die;
-        */
         return $menu;
+    }
+    public function getCategoryMM()
+    {
+
+            $q= " 
+            SELECT 
+            a.id,
+            a.name,
+            a.parent
+            FROM menu a
+            WHERE a.is_single_page = 0
+            ";
+            $detail = DB::select(DB::raw($q));
+            $jk = array();
+            foreach ($detail as $key => $k) {
+                    $q= " 
+                    SELECT 
+                    a.id,
+                    a.name 
+                    FROM menu a
+                    WHERE a.parent = '".$k->id."'
+                    AND a.is_single_page = 0
+                ";
+                $q = DB::select(DB::raw($q));
+                $id = array();
+                foreach ($q as $Qk) {
+                    $id[] = $Qk->id;
+                }
+                $id = implode(",", $id);
+                if($id !=''){
+                    $id = $id.",".$k->id;
+                }else{
+                    $id = $k->id;
+                }
+                $jk[] = array('name'=>$k->name,'slug'=>$this->slug($k->name),'id'=>$id,'link'=>"/c/".$this->slug($k->name),'parent'=>$k->parent);
+
+            }
+        return $jk;
     }
     public function categoryHome()
     {
         $categories = $this->categories;
+
         $data = array();
-        foreach ($categories as $category) {
-            $q = $this->queryNews(" AND h.id = '".$category['id']."' ORDER BY publish_date DESC LIMIT 1,4 ");
+        $no = 0;
+        foreach ($categories as $k =>$category) {
+            if($category['parent'] != 1){
+                continue;
+            }
+            $q = $this->queryNews(" AND g.id in ('".$category['id']."') ORDER BY publish_date DESC LIMIT 1,4 ");
             $news_q = DB::select(DB::raw($q));
+            if($no == 3){
+                break;
+            }
+            if(count($news_q) > 0 ){
+                if($no == 0){
+                    $category['class'] = 'red';
+                }            
+                if($no == 1 ){
+                    $category['class'] = 'blue';
+                }    
+                if($no == 2 ){
+                    $category['class'] = 'teal';
+                }    
+
+                $no +=1;
+            }else{
+                continue;
+            }
             $news = array();
             foreach ($news_q as $new_q) {
                 $new_q->content_prev = substr(strip_tags($new_q->content_prev),0,50)." ...";
@@ -97,7 +148,7 @@ class SettingController extends Controller
             }
             $category['news'] = $news;
 
-            $q = $this->queryNews(" AND h.id = '".$category['id']."' ORDER BY publish_date DESC LIMIT 1 ");
+            $q = $this->queryNews(" AND g.id in ('".$category['id']."') ORDER BY publish_date DESC LIMIT 1 ");
             $news_q = DB::select(DB::raw($q));
             if(isset($news_q[0])){
                     
@@ -385,7 +436,7 @@ class SettingController extends Controller
         $limit = isset($filter['limit'])?$filter['limit']:'5';
         $start = ($page - 1 ) * $limit;
         $q = isset($filter['q'])?$filter['q']:'';
-        $cat = isset($filter['cat'])?$filter['cat']:'';
+        $cat = isset($filter['cat'])?$filter['cat']:'senior';
 
         $q_where = '';
         if($q !=''){
@@ -401,8 +452,8 @@ class SettingController extends Controller
         if($cat!=''){
             $cat_id = '';
             foreach ($this->categories as $category) {
-                if($cat == $category['link']){
-                    $q_where = " AND h.id = ".$category['id'];
+                if($cat == $category['slug']){
+                    $q_where = " AND g.id in ('".$category['id']."') ";
                     $cat_id = $category['id'];
                     break;
                 }
@@ -434,6 +485,7 @@ class SettingController extends Controller
         $news_q = DB::select(DB::raw($q." $q_where"));
         $count = count($news_q);
 
+        $return['q_where'] = $q_where;
         $return['count'] = $count;
         $return['data'] = $data;
         $return['error'] = false;
