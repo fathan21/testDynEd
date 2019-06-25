@@ -1,8 +1,6 @@
 <template>
     <div class="">
-          <!--
           <HomeCarousel></HomeCarousel>
-          -->
         <MediaSkolten v-if="loading"></MediaSkolten>
         <HomeCategory v-if="!loading && !error" :category_home="getCategoryHome"></HomeCategory>
         <HomeGalery v-if="!loading && !error" :data="getGaleryHome"></HomeGalery>
@@ -12,13 +10,13 @@
 import { mapActions, mapGetters } from 'vuex';
 import { api } from "../api";
 
-// import HomeCarousel from '../components/HomeCarousel';
+import HomeCarousel from '../components/HomeCarousel';
 import HomeCategory from '../components/HomeCategory';
 import HomeGalery from '../components/HomeGalery';
 export default {
     name: "Home",
     components: {
-        // HomeCarousel,
+        HomeCarousel,
         HomeCategory,
         HomeGalery
     },

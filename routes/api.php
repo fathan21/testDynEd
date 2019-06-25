@@ -32,5 +32,6 @@ Route::group(['prefix' => 'v1','namespace' => 'Api'], function($app)
 Route::group(['prefix' => 'v1/admin','namespace' => 'Api\admin', 'middleware' => ['cors']], function($app){
   $app->any('/login','AuthController@login');
   $app->resource('/users','UserController');
+  $app->resource('/galery','GaleryController');
 
 });
