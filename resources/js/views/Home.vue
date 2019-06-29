@@ -1,8 +1,8 @@
 <template>
     <div class="">
-          <HomeCarousel></HomeCarousel>
+          
         <MediaSkolten v-if="loading"></MediaSkolten>
-        <HomeCategory v-if="!loading && !error" :category_home="getCategoryHome"></HomeCategory>
+        <HomeCategory v-if="!loading && !error" :category_home="getCategoryHome" :headline="getHeadline"></HomeCategory>
         <HomeGalery v-if="!loading && !error" :data="getGaleryHome"></HomeGalery>
     </div>
 </template>
@@ -10,13 +10,12 @@
 import { mapActions, mapGetters } from 'vuex';
 import { api } from "../api";
 
-import HomeCarousel from '../components/HomeCarousel';
+// import HomeCarousel from '../components/HomeCarousel';
 import HomeCategory from '../components/HomeCategory';
 import HomeGalery from '../components/HomeGalery';
 export default {
     name: "Home",
     components: {
-        HomeCarousel,
         HomeCategory,
         HomeGalery
     },
@@ -28,7 +27,9 @@ export default {
     },
     mounted() {
       if(this.getCategoryHome.length <= 0){
-        this.getCategoryH();
+        this.getCategoryH().then((e)=>{
+            this.getHeadlineH();
+        });
       }
     },
     computed: {
@@ -36,15 +37,35 @@ export default {
         ...mapGetters([
             'getCategoryHome',
             'getGaleryHome',
+            'getHeadline',
             // ...
         ])
     },
     methods: {
         ...mapActions([
             'setCategoryHome', // map `this.increment()` to `this.$store.dispatch('increment')`
-            'setGaleryHome'
+            'setGaleryHome',
+            'setHeadline',
         ]),
-        getCategoryH() {
+        async getHeadlineH() {
+            this.loading = true;
+            const parameter = {
+                client_secret: api.clientSecret,
+            };
+            window.axios.post(api.headline, parameter)
+                .then(res => {
+                    let r = res.data;
+                    let app = this;
+                    this.setHeadline(r.data).then(function(e) {
+                        // console.log(app.getCategoryHome);
+                        app.loading = false;
+                    });
+                })
+                .catch(err => {
+                    this.loading = false;
+                });
+        },
+        async getCategoryH() {
             this.loading = true;
             const parameter = {
                 client_secret: api.clientSecret,

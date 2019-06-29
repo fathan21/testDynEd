@@ -49,9 +49,10 @@ export default {
     watch:{
         $route (to, from){
             this.filter.q = this.$router.history.current.query.q;
+            this.filter.tag = this.$router.history.current.query.tag;
             this.getData();
             var meta_data = {
-                title : ' Search ' + this.filter.q + ' | '+  this.getSetting.name,
+                title : ' Search ' + this.filter.q,
             };
             this.meta.set(meta_data);
         }
@@ -66,6 +67,7 @@ export default {
     },
     created() {
         this.filter.q = this.$router.history.current.query.q;
+        this.filter.tag = this.$router.history.current.query.tag;
         this.getData();
             var meta_data = {
                 title : ' Search ' + this.filter.q + ' | '+  this.getSetting.name,
@@ -80,7 +82,8 @@ export default {
                 page:1,
                 limit: 6,
                 q:'',
-                cat:''
+                cat:'',
+                tag:'',
             },
             countData:0,
             data: [],

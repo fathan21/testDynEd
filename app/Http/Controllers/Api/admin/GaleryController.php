@@ -4,6 +4,8 @@ namespace App\Http\Controllers\api\admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 use App\Galery;
 class GaleryController extends Controller
@@ -24,25 +26,27 @@ class GaleryController extends Controller
 		$q = isset($input['q'])?$input['q']:'';
 		$offset = ($page-1) * $limit;
 
-		$data = $this->_model->select('id','name','id','img')->whereNull('deleted_at');
+		$data = $this->_model->select('created_at','id','name','id',DB::raw(' IF(img_type="img", CONCAT("'.$this->base_img.'","/",img) ,img) as img '))
+				->whereNull('deleted_at');
 		if($q !=''){
 			$data = $data->where(function($query) use ($q){
-			        $query->where('nane', 'like', '%' . $q . '%');
+			        $query->where('name', 'like', '%' . $q . '%');
 			});
 		}
 
-		$data = $data->skip($offset)->take($limit)->paginate();
-		$data =
-		foreach ($data as $key => $value) {
-			if($value['img_type']){
-				$data[$key]->img = $this->base_img.$value->img;
-			}
-		}
+		$data = $data->skip($offset)->take($limit)->orderBy('created_at','desc')->paginate();
+			
 		return $data;
 	}
 	public function show($id)
 	{
 		$data = $this->_model->find($id);
+
+		if($data->img_type=='img' && $data->drive=='local'){
+			$data->img_prev= $this->base_img.'/'.$data->img;
+		} else{
+			$data->img_prev = '';
+		}
 		$res = array(
 			'msg'=>'success',
 			'error'=>false,
@@ -65,7 +69,7 @@ class GaleryController extends Controller
 	{
 		$input = $request->input();
 
-        $input = $request->only(['name']);
+        $input = $request->only(['name','img']);
         $validation = Validator::make($input, [
                 'name' => 'required|min:2', // unique:users
         ]);
@@ -82,7 +86,13 @@ class GaleryController extends Controller
 
         $data = $id == ''?$this->_model:$this->_model->find($id);
 
-        $data->email = $input['name'];
+        $data->name = $input['name'];
+        $data->img_type = 'img';
+        $data->drive = 'local';
+        if(isset($input['img']) && $input['img']!=''){
+        	$data->img = $input['img'];
+        }
+        
         $data->save();
 
 		$res = array(
@@ -98,5 +108,20 @@ class GaleryController extends Controller
         $data->deleted_by = '1';
         $data->deleted_at = date('Y-m-d H:i:s');
         $data->save();
+	}
+	public function upload(Request $request)
+	{
+		$file = $request->file("file");
+
+		$input = $request->input();
+
+		$filename = date('YmdHis')."_".$this->_model->slug($input['name']).".".$file->getClientOriginalExtension();
+        $file->move(public_path('assets/img/galery'), $filename);
+        $res['data'] = $filename;
+        $res['file_path'] = $this->base_img.'/'.$filename;
+        $res['error'] = false;
+        $res['msg'] = 'success';
+
+        return $res;
 	}
 }

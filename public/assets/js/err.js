@@ -140,9 +140,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   watch: {
     $route: function $route(to, from) {
       this.filter.q = this.$router.history.current.query.q;
+      this.filter.tag = this.$router.history.current.query.tag;
       this.getData();
       var meta_data = {
-        title: ' Search ' + this.filter.q + ' | ' + this.getSetting.name
+        title: ' Search ' + this.filter.q
       };
       this.meta.set(meta_data);
     }
@@ -150,6 +151,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['getSetting'])),
   created: function created() {
     this.filter.q = this.$router.history.current.query.q;
+    this.filter.tag = this.$router.history.current.query.tag;
     this.getData();
     var meta_data = {
       title: ' Search ' + this.filter.q + ' | ' + this.getSetting.name
@@ -163,7 +165,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         page: 1,
         limit: 6,
         q: '',
-        cat: ''
+        cat: '',
+        tag: ''
       },
       countData: 0,
       data: [],

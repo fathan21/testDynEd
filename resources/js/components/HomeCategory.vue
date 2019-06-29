@@ -4,7 +4,51 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-9">
-                    <HomeCategoryLayout v-for="item in category_home" v-if="item.news.length > 0" :data="item" v-bind:key="item.id" ></HomeCategoryLayout>
+                    <div class="row" style="margin-bottom:20px">
+                        <div class="col-md-12">
+                            <div class="">
+                                <div>
+
+                                    <carousel v-if="headline.length > 0" id="feature_video_slider" class="" :responsive="{0:{items:1,nav:false}}" :autoplay="true">
+                                        <div v-for="item in headline"  v-bind:key="item.id">
+                                          <div class="item feature_news_item" >
+                                              <div class="item_wrapper">
+                                                  <div class="item_img">
+                                                      <div class="skeleton item_img_background" style="width:100%;background-size:cover" v-bind:style="{ 'background-image': 'url(' + item.img + ')' }"></div>
+                                                  </div>
+                                                  <!--item_img-->
+                                                  <div class="item_title_date">
+                                                      <div class="news_item_title">
+                                                          <h2>
+                                                              <router-link :to="item.link">
+                                                                  {{item.title}}
+                                                              </router-link>
+                                                          </h2>
+                                                      </div>
+                                                      <div class="media_meta"><a href="#">{{item.date | toDateIndo}},</a> by:<a href="#">{{item.writer}}</a></div>
+                                                  </div>
+                                                  <!--item_title_date-->
+                                              </div>
+                                              <!--item_wrapper-->
+                                              <div class="item_content">
+
+                                                <div class="prev">
+                                                    {{item.content_prev}}
+                                                </div>
+                                              </div>
+                                          </div>
+                                        </div>
+                                        <template slot="prev"><span class="prev-galery"><i class="fa fa-arrow-circle-left"></i></span></template>
+                                        <template slot="next"><span class="next-galery"><i class="fa fa-arrow-circle-right"></i></span></template>
+                                    </carousel>
+                                    <!--carousel-inner-->
+                                </div>
+                                <!--carousel-->
+                            </div>
+                            <!--feature_news_carousel-->
+                        </div>
+                    </div>
+                    <HomeCategoryLayout v-for="item in category_home" v-if="item.news.length > 0" :data="item" v-bind:key="item.id"></HomeCategoryLayout>
                     <!--
                     <div id="more_news_item" class="more_news_item">
                         <div class="more_news_heading">
@@ -21,7 +65,7 @@
                 </div>
                 <!--col-md-9-->
                 <div class="col-md-3">
-                  <Sidebar></Sidebar>
+                    <Sidebar></Sidebar>
                 </div>
             </div>
         </div>
@@ -31,93 +75,95 @@
 import Sidebar from '../components/Sidebar';
 import Media4 from '../components/Media4';
 import HomeCategoryLayout from '../components/HomeCategoryLayout';
+import carousel from 'vue-owl-carousel';
 export default {
     name: 'HomeCategory',
-  	components: {
-  		Sidebar,
-      HomeCategoryLayout,
-      Media4
-  	},
-    created: function() {
-      // console.log(this.category_home);
+    components: {
+        Sidebar,
+        HomeCategoryLayout,
+        Media4,
+        carousel
     },
-    props: ['category_home'],
+    created: function() {
+        // console.log(this.category_home);
+    },
+    props: ['category_home', 'headline'],
     data: () => {
-      return {
-        /*
-        category_home: [
-          {
-            id:'1',
-            name:'Jakarta',
-            link:'/c/jakarta',
-            class:'red',
-            news_header:{
+        return {
+            /*
+            category_home: [
+              {
                 id:'1',
-                link:'/p/link',
-                date:'2019-05-01 19:00:00',
-                title:'Spain going to made class football',
-                img:'assets/img/img_feature_news.jpg',
-                content_prev: 'Sed perspiciatis unde omnis iste natus voluptatem.',
-                rating:5,
-                comment_count:5,
-                writer:"indi",
+                name:'Jakarta',
+                link:'/c/jakarta',
+                class:'red',
+                news_header:{
+                    id:'1',
+                    link:'/p/link',
+                    date:'2019-05-01 19:00:00',
+                    title:'Spain going to made class football',
+                    img:'assets/img/img_feature_news.jpg',
+                    content_prev: 'Sed perspiciatis unde omnis iste natus voluptatem.',
+                    rating:5,
+                    comment_count:5,
+                    writer:"indi",
 
-            },
-            news:[
-              {
-                  id:'1',
-                  link:'/p/link',
-                  date:'2019-05-01 19:00:00',
-                  title:'Spain going to made class football',
-                  img:'assets/img/img-list.jpg',
-                  content_prev: 'Sed perspiciatis unde omnis iste natus voluptatem.',
-                  rating:5,
-                  comment_count:5,
-                  writer:"indi",
-              },
-              {
-                  id:'2',
-                  link:'/p/link',
-                  date:'2019-05-01 19:00:00',
-                  title:'Spain going to made class football',
-                  img:'assets/img/img-list.jpg',
-                  content_prev: 'Sed perspiciatis unde omnis iste natus voluptatem.',
-                  rating:5,
-                  comment_count:5,
-                  writer:"indi",
-              },
+                },
+                news:[
+                  {
+                      id:'1',
+                      link:'/p/link',
+                      date:'2019-05-01 19:00:00',
+                      title:'Spain going to made class football',
+                      img:'assets/img/img-list.jpg',
+                      content_prev: 'Sed perspiciatis unde omnis iste natus voluptatem.',
+                      rating:5,
+                      comment_count:5,
+                      writer:"indi",
+                  },
+                  {
+                      id:'2',
+                      link:'/p/link',
+                      date:'2019-05-01 19:00:00',
+                      title:'Spain going to made class football',
+                      img:'assets/img/img-list.jpg',
+                      content_prev: 'Sed perspiciatis unde omnis iste natus voluptatem.',
+                      rating:5,
+                      comment_count:5,
+                      writer:"indi",
+                  },
+                ]
+              }
+            ],
+            */
+            more_news: [{
+                    id: '1',
+                    link: '/p/link',
+                    date: '2019-05-01 19:00:00',
+                    title: 'Spain going to made class football',
+                    img: 'assets/img/img_feature_news.jpg',
+                    content_prev: 'Sed perspiciatis unde omnis iste natus voluptatem. Sed perspiciatis unde omnis iste natus voluptatem. Sed perspiciatis unde omnis iste natus voluptatem.',
+                    rating: 5,
+                    comment_count: 5,
+                    writer: "indi",
+                },
+                {
+                    id: '2',
+                    link: '/p/link',
+                    date: '2019-05-01 19:00:00',
+                    title: 'Spain going to made class football',
+                    img: 'assets/img/img_feature_news.jpg',
+                    content_prev: 'Sed perspiciatis unde omnis iste natus voluptatem.',
+                    rating: 5,
+                    comment_count: 5,
+                    writer: "indi",
+                },
             ]
-          }
-        ],
-        */
-        more_news:[
-          {
-              id:'1',
-              link:'/p/link',
-              date:'2019-05-01 19:00:00',
-              title:'Spain going to made class football',
-              img:'assets/img/img_feature_news.jpg',
-              content_prev: 'Sed perspiciatis unde omnis iste natus voluptatem. Sed perspiciatis unde omnis iste natus voluptatem. Sed perspiciatis unde omnis iste natus voluptatem.',
-              rating:5,
-              comment_count:5,
-              writer:"indi",
-          },
-          {
-              id:'2',
-              link:'/p/link',
-              date:'2019-05-01 19:00:00',
-              title:'Spain going to made class football',
-              img:'assets/img/img_feature_news.jpg',
-              content_prev: 'Sed perspiciatis unde omnis iste natus voluptatem.',
-              rating:5,
-              comment_count:5,
-              writer:"indi",
-          },
-        ]
-      }
+        }
     },
     mounted() {
 
     }
 };
+
 </script>

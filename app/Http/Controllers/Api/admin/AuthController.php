@@ -68,6 +68,7 @@ class AuthController extends Controller
         $data->last_login = date("Y-m-d H:i:s");
         $data->token = Str::random(60);
 
+        $data->save();
         $res = array(
             "status"=>"200",
             "error"=>false,

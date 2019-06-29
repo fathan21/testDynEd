@@ -14,6 +14,18 @@
                             <div class="item_img" v-if="data.img && data.type_page !='galery' ">
                                 <img class="img-responsive" :src="data.img" :alt="data.title">
                             </div>
+
+                            <div class="item_img" v-if="data.video">
+                                
+                                <iframe 
+                                  v-if="data.video"
+                                  width="100%"
+                                  height="480"
+                                  :src="data.video"
+                                  frameborder="0"
+                                  gesture="media"
+                                  allowfullscreen></iframe>
+                            </div>
                             <div class="galery-div">
                                 <carousel v-if="data.imgs" id="feature_video_slider"  :items="1" :nav="true" :autoplay="false" :loop="false" :dots="false">
 
@@ -98,7 +110,11 @@
 
                                 <!--item_content-->
                                 <div class="category_list"  v-if="data.key_word"> 
-                                    <a href="#" v-for="item in (data.key_word).split(',')" >{{item}}</a>
+                                    <span  v-for="item in (data.key_word).split(',')" href="javascipt:;">                                
+                                        <router-link class="page-scroll" :to="'/search?tag='+item">
+                                            {{item}}
+                                        </router-link>
+                                    </span>
                                 </div>
                                 <!--category_list-->
                             </div>

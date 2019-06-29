@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+
+use App\Galery;
 class SettingController extends Controller
 {
 
@@ -105,25 +107,38 @@ class SettingController extends Controller
                 }else{
                     $id = $k->id;
                 }
-                $jk[] = array('name'=>$k->name,'slug'=>$this->slug($k->name),'id'=>$id,'link'=>"/c/".$this->slug($k->name),'parent'=>$k->parent);
+                $jk[] = array('menu_id'=>$k->id,'name'=>$k->name,'slug'=>$this->slug($k->name),'id'=>$id,'link'=>"/c/".$this->slug($k->name),'parent'=>$k->parent);
 
             }
         return $jk;
     }
     public function categoryHome()
     {
+
+        $headline = DB::table('headline_category')->select('menu_id')->get();
+        $headline_id = array();
+        foreach ($headline as $key => $value) {
+            $headline_id[] = $value->menu_id;
+        }
+
+        //$headline_id = implode(",", $headline_id);
+
         $categories = $this->categories;
 
         $data = array();
         $no = 0;
         foreach ($categories as $k =>$category) {
             if($category['parent'] != 1){
+                //continue;
+            }
+            if (!in_array($category['menu_id'], $headline_id))
+            {
                 continue;
             }
             $q = $this->queryNews(" AND g.id in ('".$category['id']."') ORDER BY publish_date DESC LIMIT 1,4 ");
             $news_q = DB::select(DB::raw($q));
-            if($no == 3){
-                break;
+            if($no == 2){
+                // break;
             }
             if(count($news_q) > 0 ){
                 if($no == 0){
@@ -142,6 +157,13 @@ class SettingController extends Controller
             }
             $news = array();
             foreach ($news_q as $new_q) {
+                if($new_q->galery_id !='' && $new_q->type=='article'){
+                    $galery = Galery::find($new_q->galery_id);
+                    $new_q->img = $this->base_img."/".$galery->img;
+                }else{
+                    $video = explode("/", $new_q->video);
+                    $new_q->img = 'https://img.youtube.com/vi/'.end($video).'/hqdefault.jpg';
+                }
                 $new_q->content_prev = substr(strip_tags($new_q->content_prev),0,50)." ...";
                 $new_q->link = '/p/'.$new_q->id.'-'.$this->slug($new_q->title);
                 $news[] = $new_q;
@@ -151,7 +173,11 @@ class SettingController extends Controller
             $q = $this->queryNews(" AND g.id in ('".$category['id']."') ORDER BY publish_date DESC LIMIT 1 ");
             $news_q = DB::select(DB::raw($q));
             if(isset($news_q[0])){
-                    
+                
+                if($news_q[0]->galery_id !='' && $news_q[0]->type=='article'){
+                    $galery = Galery::find($news_q[0]->galery_id);
+                    $news_q[0]->img = $this->base_img."/".$galery->img;
+                }
                 $news_q[0]->content_prev = substr(strip_tags($news_q[0]->content_prev),0,50)." ...";
                 $news_q[0]->link = '/p/'.$news_q[0]->id.'-'.$this->slug($news_q[0]->title);
                 $category['news_header'] = $news_q[0];   
@@ -175,8 +201,13 @@ class SettingController extends Controller
         foreach ($news_q as $new_q) {
                 $new_q->link = '/p/'.$new_q->id.'-galery-'.$this->slug($new_q->title);
                 $galery = explode(",", $new_q->img);
-                $img = DB::table('galery')->where('id',$galery[0])->first();
-                $new_q->img = $this->base_img.'/'.$img->img;
+                 if($new_q->img !='' ){
+                    $img = DB::table('galery')->where('id',$galery[0])->first();
+                    $new_q->img = $this->base_img.'/'.$img->img;
+                }else{
+                    $video = explode("/", $new_q->video);
+                    $new_q->img = 'https://img.youtube.com/vi/'.end($video).'/hqdefault.jpg';
+                }
                 $data[] = $new_q;
         }
         $return['data'] = $data;
@@ -196,13 +227,11 @@ class SettingController extends Controller
     {
         if($type == 'article'){
             $q="SELECT a.id ,c.publish_date as date, a.title,
-                     CONCAT('$this->base_img','/',d.img) as img,
-                     a.content as content_prev,
+                     a.content as content_prev,a.type,c.video, c.galery_id,
                      e.full_name as writer
                      FROM posts a 
                      JOIN posts_meta b ON a.id = b.posts_id 
                      JOIN content c ON a.id = c.posts_id
-                     JOIN galery d ON d.id = c.galery_id
                      JOIN user e ON c.writer = e.id
                      JOIN menu g ON g.id = a.menu_id
                      JOIN menu h ON h.id = g.parent
@@ -213,7 +242,7 @@ class SettingController extends Controller
 
         }else{
             $q="SELECT a.id,c.publish_date as date, a.title,
-                     c.galery_id as img,
+                     c.galery_id as img,c.video,
                      e.full_name as writer 
                      FROM posts a 
                      JOIN posts_meta b ON a.id = b.posts_id 
@@ -221,6 +250,7 @@ class SettingController extends Controller
                      JOIN user e ON c.writer = e.id
                      WHERE 
                      a.deleted_at IS NULL
+                     AND a.status='publish'
                      $q_where ";
 
         }
@@ -236,13 +266,11 @@ class SettingController extends Controller
                      a.*,
                      c.*,
                      c.publish_date as date, a.title,
-                     CONCAT('$this->base_img','/',d.img) as img,
                      a.content,
                      e.full_name as writer
                      FROM posts a 
                      JOIN posts_meta b ON a.id = b.posts_id 
                      JOIN content c ON a.id = c.posts_id
-                     JOIN galery d ON d.id = c.galery_id
                      JOIN user e ON c.writer = e.id
                      JOIN menu g ON g.id = a.menu_id
                      JOIN menu h ON h.id = g.parent
@@ -252,13 +280,13 @@ class SettingController extends Controller
         }else if($type=='galery'){
             $q="SELECT a.id,
                      a.*, b.*,c.publish_date as date, a.title,
-                     c.galery_id as img,
+                     c.galery_id as img,c.video,
                      a.content,
                      e.full_name as writer
                      FROM posts a 
                      JOIN posts_meta b ON a.id = b.posts_id 
                      JOIN content_galery c ON a.id = c.posts_id
-                     LEFT JOIN user e ON c.writer = e.id
+                     JOIN user e ON c.writer = e.id
                      WHERE 
                      a.deleted_at IS NULL
                      AND  a.id = '$id' ";
@@ -294,7 +322,7 @@ class SettingController extends Controller
             $q['content_slide'] = $content_slide;//array_push($q,$content_slide);
 
         }
-        if($type=='galery' && isset($q['id'])){
+        if($type=='galery' && isset($q['id']) && $q['img']!=''){
             // get galery image
             $content_slide = " SELECT a.name , CONCAT('$this->base_img','/',a.img) as img
                      FROM  galery a
@@ -386,6 +414,14 @@ class SettingController extends Controller
         $latest = array();
         $q_where = '';
         foreach ($news_q as $new_q) {
+                if($new_q->galery_id !='' && $new_q->type=='article'){
+                    $galery = Galery::find($new_q->galery_id);
+                    $new_q->img = $this->base_img."/".$galery->img;
+                }else{
+                    $video = explode("/", $new_q->video);
+                    $new_q->img = 'https://img.youtube.com/vi/'.end($video).'/hqdefault.jpg';
+                }
+
                 $new_q->content_prev = substr(strip_tags($new_q->content_prev),0,50)." ...";
                 $new_q->link = '/p/'.$new_q->id.'-'.$this->slug($new_q->title);
                 $latest[] = $new_q;
@@ -400,6 +436,13 @@ class SettingController extends Controller
         $news_q = DB::select(DB::raw($q));
         $populer = array();
         foreach ($news_q as $new_q) {
+                if($new_q->galery_id !='' && $new_q->type=='article'){
+                    $galery = Galery::find($new_q->galery_id);
+                    $new_q->img = $this->base_img."/".$galery->img;
+                }else{
+                    $video = explode("/", $new_q->video);
+                    $new_q->img = 'https://img.youtube.com/vi/'.end($video).'/hqdefault.jpg';
+                }
                 $new_q->content_prev = substr(strip_tags($new_q->content_prev),0,50)." ...";
                 $new_q->link = '/p/'.$new_q->id.'-'.$this->slug($new_q->title);
                 $populer[] = $new_q;
@@ -413,6 +456,13 @@ class SettingController extends Controller
         $news_q = DB::select(DB::raw($q));
         $comment = array();
         foreach ($news_q as $new_q) {
+                if($new_q->galery_id !='' && $new_q->type=='article'){
+                    $galery = Galery::find($new_q->galery_id);
+                    $new_q->img = $this->base_img."/".$galery->img;
+                }else{
+                    $video = explode("/", $new_q->video);
+                    $new_q->img = 'https://img.youtube.com/vi/'.end($video).'/hqdefault.jpg';
+                }
                 $new_q->content_prev = substr(strip_tags($new_q->content_prev),0,50)." ...";
                 $new_q->link = '/p/'.$new_q->id.'-'.$this->slug($new_q->title);
                 $new_q->comment_count = $this->getCommentCount($new_q->id);
@@ -436,7 +486,8 @@ class SettingController extends Controller
         $limit = isset($filter['limit'])?$filter['limit']:'5';
         $start = ($page - 1 ) * $limit;
         $q = isset($filter['q'])?$filter['q']:'';
-        $cat = isset($filter['cat'])?$filter['cat']:'senior';
+        $tag = isset($filter['tag'])?$filter['tag']:'';
+        $cat = isset($filter['cat'])?$filter['cat']:'';
 
         $q_where = '';
         if($q !=''){
@@ -447,6 +498,9 @@ class SettingController extends Controller
             }
             $q_s = implode(" || ", $q_s);
             $q_where .=" AND  ($q_s) ";
+        }
+        if($tag!=''){
+            $q_where .=" AND (tags LIKE '%$tag%' || key_word LIKE '%$tag%') ";
         }
         $type = 'article';
         if($cat!=''){
@@ -468,15 +522,89 @@ class SettingController extends Controller
         $data = array();
         foreach ($news_q as $new_q) {
                 if($type == 'article'){
+                    
+                    if($new_q->galery_id !='' && $new_q->type=='article'){
+                        $galery = Galery::find($new_q->galery_id);
+                        $new_q->img = $this->base_img."/".$galery->img;
+                    }else{
+                        $video = explode("/", $new_q->video);
+                        $new_q->img = 'https://img.youtube.com/vi/'.end($video).'/hqdefault.jpg';
+                    }
                     $new_q->content_prev = substr(strip_tags($new_q->content_prev),0,50)." ...";
                     $new_q->link = '/p/'.$new_q->id.'-'.$this->slug($new_q->title);
                     $new_q->comment_count = $this->getCommentCount($new_q->id);
                     
                 }else{
                     $new_q->link = '/p/'.$new_q->id.'-galery-'.$this->slug($new_q->title);
-                    $galery = explode(",", $new_q->img);
-                    $img = DB::table('galery')->where('id',$galery[0])->first();
-                    $new_q->img = $this->base_img.'/'.$img->img;
+                     if($new_q->img !='' ){
+                        $galery = explode(",", $new_q->img);
+                        $img = DB::table('galery')->where('id',$galery[0])->first();
+                        $new_q->img = $this->base_img.'/'.$img->img;
+                    }else{
+                        $video = explode("/", $new_q->video);
+                        $new_q->img = 'https://img.youtube.com/vi/'.end($video).'/hqdefault.jpg';
+                    }
+                    
+                }
+                $data[] = $new_q;
+        }
+
+        $news_q = DB::select(DB::raw($q." $q_where"));
+        $count = count($news_q);
+
+        $return['q_where'] = $q_where;
+        $return['count'] = $count;
+        $return['data'] = $data;
+        $return['error'] = false;
+        $return['msg'] = "success";
+        return $return;
+    }
+
+    public function headline(Request $request)
+    {
+        $headline = DB::table('headline')->select('posts_id')->get();
+
+        $headline_id = array();
+        foreach ($headline as $key => $value) {
+            $headline_id[] = $value->posts_id;
+        }
+        $start = 0;
+        $limit = 10;
+        
+        $headline_id = implode(",", $headline_id);
+
+        $q_where = " AND a.id IN ($headline_id) ";
+        
+        $type = 'article';
+        
+        $q = $this->queryNews('',$type);
+
+        $news_q = DB::select(DB::raw($q." $q_where ORDER BY publish_date DESC LIMIT $start,$limit "));
+        $data = array();
+        foreach ($news_q as $new_q) {
+                if($type == 'article'){
+                    
+                    if($new_q->galery_id !='' && $new_q->type=='article'){
+                        $galery = Galery::find($new_q->galery_id);
+                        $new_q->img = $this->base_img."/".$galery->img;
+                    }else{
+                        $video = explode("/", $new_q->video);
+                        $new_q->img = 'https://img.youtube.com/vi/'.end($video).'/hqdefault.jpg';
+                    }
+                    $new_q->content_prev = substr(strip_tags($new_q->content_prev),0,50)." ...";
+                    $new_q->link = '/p/'.$new_q->id.'-'.$this->slug($new_q->title);
+                    $new_q->comment_count = $this->getCommentCount($new_q->id);
+                    
+                }else{
+                    $new_q->link = '/p/'.$new_q->id.'-galery-'.$this->slug($new_q->title);
+                     if($new_q->img !='' ){
+                        $galery = explode(",", $new_q->img);
+                        $img = DB::table('galery')->where('id',$galery[0])->first();
+                        $new_q->img = $this->base_img.'/'.$img->img;
+                    }else{
+                        $video = explode("/", $new_q->video);
+                        $new_q->img = 'https://img.youtube.com/vi/'.end($video).'/hqdefault.jpg';
+                    }
                     
                 }
                 $data[] = $new_q;
@@ -532,6 +660,12 @@ class SettingController extends Controller
                 'img'=>isset($data['img'])?$data['img']:'',
             );   
         }
+        if( isset($data['galery_id']) && $data['galery_id'] !='' && $data['type']=='article'){
+            $galery = Galery::find($data['galery_id']);
+            $data['img'] = $this->base_img."/".$galery->img;
+        } 
+
+
 
         $return['data'] = $data;
         $return['error'] = false;
@@ -560,6 +694,14 @@ class SettingController extends Controller
         $news_q = DB::select(DB::raw($q." $q_where ORDER BY publish_date DESC LIMIT 5  "));
         $data=array();
         foreach ($news_q as $new_q) {
+
+                if($new_q->galery_id !='' && $new_q->type=='article'){
+                    $galery = Galery::find($new_q->galery_id);
+                    $new_q->img = $this->base_img."/".$galery->img;
+                }else{
+                    $video = explode("/", $new_q->video);
+                    $new_q->img = 'https://img.youtube.com/vi/'.end($video).'/hqdefault.jpg';
+                }
                 $new_q->content_prev = substr(strip_tags($new_q->content_prev),0,50)." ...";
                 $new_q->link = '/p/'.$new_q->id.'-'.$this->slug($new_q->title);
                 $data[] = $new_q;

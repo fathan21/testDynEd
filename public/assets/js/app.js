@@ -43,7 +43,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "" + ({"assets/js/MediaSkolten":"assets/js/MediaSkolten","assets/js/layout":"assets/js/layout","vendors~assets/js/cat~assets/js/err":"vendors~assets/js/cat~assets/js/err","assets/js/cat~assets/js/err~assets/js/home~assets/js/page":"assets/js/cat~assets/js/err~assets/js/home~assets/js/page","assets/js/cat":"assets/js/cat","assets/js/err":"assets/js/err","vendors~assets/js/home~assets/js/page":"vendors~assets/js/home~assets/js/page","assets/js/home":"assets/js/home","vendors~assets/js/page":"vendors~assets/js/page","assets/js/page":"assets/js/page"}[chunkId]||chunkId) + ".js"
+/******/ 		return __webpack_require__.p + "" + ({"assets/js/MediaSkolten":"assets/js/MediaSkolten","assets/js/layout":"assets/js/layout","vendors~assets/js/cat~assets/js/err":"vendors~assets/js/cat~assets/js/err","assets/js/cat~assets/js/err~assets/js/home~assets/js/page":"assets/js/cat~assets/js/err~assets/js/home~assets/js/page","assets/js/cat":"assets/js/cat","assets/js/err":"assets/js/err","vendors~assets/js/home~assets/js/page":"vendors~assets/js/home~assets/js/page","vendors~assets/js/home":"vendors~assets/js/home","assets/js/home":"assets/js/home","vendors~assets/js/page":"vendors~assets/js/page","assets/js/page":"assets/js/page"}[chunkId]||chunkId) + ".js"
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -37023,7 +37023,8 @@ var api = {
   news: apiDomain + '/news',
   news_detail: apiDomain + '/news_detail',
   news_detail_related: apiDomain + '/news_detail_related',
-  news_detail_comment: apiDomain + '/news_detail_comment' // login: '/oauth/token',
+  news_detail_comment: apiDomain + '/news_detail_comment',
+  headline: apiDomain + '/headline' // login: '/oauth/token',
   // register : apiDomain + '/register',
 
 };
@@ -37231,7 +37232,7 @@ var DefaultLayout = function DefaultLayout() {
 };
 
 var Home = function Home() {
-  return Promise.all(/*! import() | assets/js/home */[__webpack_require__.e("vendors~assets/js/home~assets/js/page"), __webpack_require__.e("assets/js/cat~assets/js/err~assets/js/home~assets/js/page"), __webpack_require__.e("assets/js/home")]).then(__webpack_require__.bind(null, /*! ../js/views/Home */ "./resources/js/views/Home.vue"));
+  return Promise.all(/*! import() | assets/js/home */[__webpack_require__.e("vendors~assets/js/home~assets/js/page"), __webpack_require__.e("vendors~assets/js/home"), __webpack_require__.e("assets/js/cat~assets/js/err~assets/js/home~assets/js/page"), __webpack_require__.e("assets/js/home")]).then(__webpack_require__.bind(null, /*! ../js/views/Home */ "./resources/js/views/Home.vue"));
 };
 
 var Page = function Page() {
@@ -37348,6 +37349,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 var initialState = {
   category_home: [],
   galery_home: [],
+  headline: [],
   sidebar: {}
 };
 /*
@@ -37362,6 +37364,8 @@ var mutations = (_mutations = {}, _defineProperty(_mutations, 'SET_CATEGORY_HOME
   state.galery_home = payload.galery_home;
 }), _defineProperty(_mutations, 'SET_SIDEBAR', function SET_SIDEBAR(state, payload) {
   state.sidebar = payload.sidebar;
+}), _defineProperty(_mutations, 'SET_HEADLINE', function SET_HEADLINE(state, payload) {
+  state.headline = payload.headline;
 }), _mutations);
 /*
 |--------------------------------------------------------------------------
@@ -37385,6 +37389,11 @@ var actions = {
     context.commit('SET_SIDEBAR', {
       sidebar: sidebar
     });
+  },
+  setHeadline: function setHeadline(context, headline) {
+    context.commit('SET_HEADLINE', {
+      headline: headline
+    });
   }
 };
 /*
@@ -37402,6 +37411,9 @@ var getters = {
   },
   getSidebar: function getSidebar(state) {
     return state.sidebar;
+  },
+  getHeadline: function getHeadline(state) {
+    return state.headline;
   }
 };
 /*

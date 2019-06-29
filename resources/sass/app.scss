@@ -12,3 +12,12 @@
 @import 'offcanvas.min.css';
 @import 'owl.carousel.css';
 @import 'style.css';
+
+.carousel-inner>.item>a>img, .carousel-inner>.item>img, .img-responsive, .thumbnail a>img, .thumbnail>img{
+	display: initial !important;
+}
+@media (min-width: 1200px){
+.container {
+    //width: 1104px;
+}
+}

@@ -301,6 +301,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 var SocialSharing = __webpack_require__(/*! vue-social-sharing */ "./node_modules/vue-social-sharing/dist/vue-social-sharing.common.js");
@@ -745,6 +761,23 @@ var render = function() {
                           ])
                         : _vm._e(),
                       _vm._v(" "),
+                      _vm.data.video
+                        ? _c("div", { staticClass: "item_img" }, [
+                            _vm.data.video
+                              ? _c("iframe", {
+                                  attrs: {
+                                    width: "100%",
+                                    height: "480",
+                                    src: _vm.data.video,
+                                    frameborder: "0",
+                                    gesture: "media",
+                                    allowfullscreen: ""
+                                  }
+                                })
+                              : _vm._e()
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
                       _c(
                         "div",
                         { staticClass: "galery-div" },
@@ -985,9 +1018,27 @@ var render = function() {
                                 _vm._l(_vm.data.key_word.split(","), function(
                                   item
                                 ) {
-                                  return _c("a", { attrs: { href: "#" } }, [
-                                    _vm._v(_vm._s(item))
-                                  ])
+                                  return _c(
+                                    "span",
+                                    { attrs: { href: "javascipt:;" } },
+                                    [
+                                      _c(
+                                        "router-link",
+                                        {
+                                          staticClass: "page-scroll",
+                                          attrs: { to: "/search?tag=" + item }
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\n                                        " +
+                                              _vm._s(item) +
+                                              "\n                                    "
+                                          )
+                                        ]
+                                      )
+                                    ],
+                                    1
+                                  )
                                 }),
                                 0
                               )

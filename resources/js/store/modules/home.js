@@ -8,6 +8,7 @@
 const initialState = {
 	category_home:[],
 	galery_home:[],
+	headline:[],
 	sidebar:{}
 };
 
@@ -25,6 +26,9 @@ const mutations = {
 	},
 	['SET_SIDEBAR'](state, payload) {
 		state.sidebar = payload.sidebar;
+	},
+	['SET_HEADLINE'](state, payload) {
+		state.headline = payload.headline;
 	}
 };
 
@@ -43,6 +47,9 @@ const actions = {
 	},
 	setSidebar: (context, sidebar) => {
 		context.commit('SET_SIDEBAR', {sidebar})
+	},
+	setHeadline: (context, headline) => {
+		context.commit('SET_HEADLINE', {headline})
 	}
 };
 
@@ -60,6 +67,9 @@ const getters = {
 	},
 	getSidebar: (state) => {
 		return state.sidebar;
+	},
+	getHeadline: (state) => {
+		return state.headline;
 	}
 };
 

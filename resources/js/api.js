@@ -13,6 +13,7 @@ export const api = {
 	news_detail: apiDomain +'/news_detail',
 	news_detail_related: apiDomain +'/news_detail_related',
 	news_detail_comment: apiDomain + '/news_detail_comment',
+	headline: apiDomain + '/headline',
 	// login: '/oauth/token',
 	// register : apiDomain + '/register',
 };

@@ -75,7 +75,7 @@
                     <div id="search" class="active" v-if="searchOpen">
                         <div class="search-content">
                             <form method="get" id="searchform" action="" v-on:submit="search">
-                                <input class="form-control search-input" type="text" placeholder="Search.." name="s" id="s" value="" autocomplete="off" v-model="q">
+                                <input class="form-control search-input" type="text" placeholder="Search.." name="s" id="s" value="" autocomplete="off" v-model="q" ref="search_input">
                             </form>
                             <div class="search-suggest" style="display: none;"></div>
                         </div>
@@ -111,6 +111,7 @@ export default {
     watch:{
         $route (to, from){
             this.isOpen = false;
+            this.searchOpen = false;
         }
     },
     methods: {
@@ -126,6 +127,9 @@ export default {
                 this.searchOpen = false;
             } else {
                 this.searchOpen = true;
+                setTimeout(x => {
+                    this.$refs.search_input.focus();
+                },1000)
             }
         },
         search: function(event){

@@ -197,6 +197,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   watch: {
     $route: function $route(to, from) {
       this.isOpen = false;
+      this.searchOpen = false;
     }
   },
   methods: {
@@ -208,10 +209,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     },
     openSearch: function openSearch(event) {
+      var _this = this;
+
       if (this.searchOpen) {
         this.searchOpen = false;
       } else {
         this.searchOpen = true;
+        setTimeout(function (x) {
+          _this.$refs.search_input.focus();
+        }, 1000);
       }
     },
     search: function search(event) {
@@ -742,6 +748,7 @@ var render = function() {
                                   expression: "q"
                                 }
                               ],
+                              ref: "search_input",
                               staticClass: "form-control search-input",
                               attrs: {
                                 type: "text",
