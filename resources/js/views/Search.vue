@@ -50,6 +50,7 @@ export default {
         $route (to, from){
             this.filter.q = this.$router.history.current.query.q;
             this.filter.tag = this.$router.history.current.query.tag;
+            this.filter.writer = this.$router.history.current.query.writer;
             this.getData();
             var meta_data = {
                 title : ' Search ' + this.filter.q,
@@ -68,6 +69,7 @@ export default {
     created() {
         this.filter.q = this.$router.history.current.query.q;
         this.filter.tag = this.$router.history.current.query.tag;
+        this.filter.writer = this.$router.history.current.query.writer;
         this.getData();
             var meta_data = {
                 title : ' Search ' + this.filter.q + ' | '+  this.getSetting.name,
@@ -84,6 +86,7 @@ export default {
                 q:'',
                 cat:'',
                 tag:'',
+                writer:'',
             },
             countData:0,
             data: [],

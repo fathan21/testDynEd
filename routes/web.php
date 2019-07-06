@@ -11,7 +11,16 @@
 |
 */
 
-Route::get('/', function () {
+Route::any('/', function () {
+    return view('vue');
+});
+Route::any('/{any}', function () {
+    return view('vue');
+});
+Route::any('/{any}/{any1}', function () {
+    return view('vue');
+});
+Route::get('/web', function () {
     return view('vue');
 });
 Route::get('/vue', function () {

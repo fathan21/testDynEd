@@ -117,9 +117,11 @@ class GaleryController extends Controller
 
 		$filename = date('YmdHis')."_".$this->_model->slug($input['name']).".".$file->getClientOriginalExtension();
         $file->move(public_path('assets/img/galery'), $filename);
+        //$file->move('/home/jacatran/public_html/assets/img/galery', $filename);
         $res['data'] = $filename;
         $res['file_path'] = $this->base_img.'/'.$filename;
         $res['error'] = false;
+        $res['t'] = public_path();
         $res['msg'] = 'success';
 
         return $res;

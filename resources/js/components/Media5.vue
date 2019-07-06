@@ -1,7 +1,7 @@
 <template>
     <div class="item">
         <div class="video_thumb" style="text-align:center">
-                <div  class="skeleton item_img_background" style="width:90%;background-size:cover" v-bind:style="{ 'background-image': 'url(' + data.img + ')' }">
+                <div  class="lazy skeleton item_img_background" style="width:90%;background-size:cover" v-bind:style="{ 'background-image': 'url(' + data.img + ')' }">
 
                 </div>
         </div>

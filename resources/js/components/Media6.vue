@@ -3,10 +3,8 @@
         
         <div class="media-left">
             <router-link :to="data.link">
+                <img :alt="data.title" style="width:80px;" :src="data.img">
                 
-                <div class="skeleton" style="width:80px;height:80px;background-size:cover" v-bind:style="{ 'background-image': 'url(' + data.img + ')' }">
-
-                </div>
             </router-link>
         </div>
         <!--media-left-->

@@ -1,15 +1,12 @@
 {
-    "/assets/js/app.js": "/assets/js/app.js?id=8ccb64ea4a97fc718d7b",
-    "/assets/css/app.css": "/assets/css/app.css?id=f80bd54c33eeb22965e9",
-    "/assets/js/MediaSkolten.js": "/assets/js/MediaSkolten.js?id=547d9998863c572c7739",
-    "/assets/js/cat.js": "/assets/js/cat.js?id=8f37d6ea122c46720028",
-    "/assets/js/cat~assets/js/err~assets/js/home~assets/js/page.js": "/assets/js/cat~assets/js/err~assets/js/home~assets/js/page.js?id=cd2ef5a57a51f722b803",
-    "/assets/js/err.js": "/assets/js/err.js?id=9146b21e5c887b0d722e",
-    "/assets/js/home.js": "/assets/js/home.js?id=e5cf7bca6b09133a583f",
-    "/assets/js/layout.js": "/assets/js/layout.js?id=dd02676eb19bab3f3582",
-    "/assets/js/page.js": "/assets/js/page.js?id=1273daf7f266a882a78a",
-    "/vendors~assets/js/cat~assets/js/err.js": "/vendors~assets/js/cat~assets/js/err.js?id=cbc687b6d7e9ff6f46fd",
-    "/vendors~assets/js/home~assets/js/page.js": "/vendors~assets/js/home~assets/js/page.js?id=943b68b95a3ba0d2ef04",
-    "/vendors~assets/js/page.js": "/vendors~assets/js/page.js?id=ae7a7d538757a0acda1f",
-    "/vendors~assets/js/home.js": "/vendors~assets/js/home.js?id=714b6882b1a99a3711da"
+    "/assets/vue/vendors~home~page.bundle.js": "/assets/vue/vendors~home~page.bundle.js?id=553fa24e74d0cd9adb9d",
+    "/assets/vue/app.js": "/assets/vue/app.js?id=bc673c8b46b81a30b713",
+    "/assets/vue/app.css": "/assets/vue/app.css?id=87a21ac08c8d02019d53",
+    "/assets/vue/MediaSkolten.bundle.js": "/assets/vue/MediaSkolten.bundle.js?id=50406ed405c874e7e93c",
+    "/assets/vue/cat.bundle.js": "/assets/vue/cat.bundle.js?id=532c8678a99762e1c4ba",
+    "/assets/vue/err.bundle.js": "/assets/vue/err.bundle.js?id=8a4f71ff669a8823b97c",
+    "/assets/vue/home.bundle.js": "/assets/vue/home.bundle.js?id=1c845eb09d791163409d",
+    "/assets/vue/layout.bundle.js": "/assets/vue/layout.bundle.js?id=7a1a241a8a338a2175cb",
+    "/assets/vue/page.bundle.js": "/assets/vue/page.bundle.js?id=b4e84f831f31910a2799",
+    "/assets/vue/search.bundle.js": "/assets/vue/search.bundle.js?id=c1ef8a1c7902dc961366"
 }

@@ -12,7 +12,8 @@
 
                         <div class="item feature_news_item"  style="postion:relative">
                             <div class="item_img" v-if="data.img && data.type_page !='galery' ">
-                                <img class="img-responsive" :src="data.img" :alt="data.title">
+                                <img class="img-responsive" src="/assets/img/img-def-min.png" v-lazy="data.img" :alt="data.title"  style="width:100%;">
+                                
                             </div>
 
                             <div class="item_img" v-if="data.video">
@@ -36,13 +37,16 @@
                                     <template slot="next"><span class="next-galery"><i class="fa fa-arrow-circle-right"></i></span></template>
                                 </carousel>
                             </div>
+                            <div class="item_meta" v-if="data.sumber" style="text-align:left;paddinf-left:5px;">{{data.sumber}}</div>
                             <!--item_img-->
                             <div class="item_wrapper">
                                 <div class="news_item_title">
-                                    <h2><a href="#">{{data.title}}</a></h2>
+                                    <h1><a href="#">{{data.title}}</a></h1>
                                 </div>
                                 <!--news_item_title-->
-                                <div class="item_meta" v-if="data.date"><a href="#">{{data.date | toDateIndo }},</a> by:<a href="#">{{data.writer}}</a></div>
+                                <div class="item_meta" v-if="data.date"><a href="#">{{data.date | toDateIndo }},</a> by:
+                                    <router-link class="page-scroll" :to="'/search?writer='+data.writer">{{data.writer}}</router-link>
+                                </div>
                                 <!--
                                 <span class="rating">
                                     <i class="fa fa-star"></i>

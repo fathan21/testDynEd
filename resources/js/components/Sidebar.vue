@@ -18,18 +18,17 @@
         <!--tab-content-->
     </div>
     <!--tab-->
-    <!--
+
     <div class="ad">
-        <img class="img-responsive" src="assets/img/img-sitebar.jpg" alt="img" />
-        <img class="img-responsive" src="assets/img/img-sitebar.jpg" alt="img" />
-        <img class="img-responsive" src="assets/img/img-sitebar.jpg" alt="img" />
-        <img class="img-responsive" src="assets/img/img-sitebar.jpg" alt="img" />
+        <div class="adswrapper"> 
+
+        </div>
     </div>
-    <!--ad-->
-    <!--
+
+    
     <div class="ad">
-        <img class="img-responsive" src="assets/img/img-ad.jpg" alt="img" />
     </div>
+    <!--
     <div class="ad">
         <img class="img-responsive" src="assets/img/img-ad2.jpg" alt="img" />
     </div>
@@ -55,6 +54,9 @@ export default {
     components:{
       Media1,
       Media2
+    },
+    mounted () {
+        //this.loadAdsen();
     },
     computed: {
         // mix the getters into computed with object spread operator
@@ -109,6 +111,13 @@ export default {
     methods: {
       tab: function (param,event) {
         this.tab_v = param;
+      },
+      loadAdsen(){
+        let adsbygoogle=(adsbygoogle = window.adsbygoogle || []);
+        document.querySelectorAll('.adsbygoogle').forEach(function(ad) {
+            console.log(ad);
+            adsbygoogle.push(ad);
+        });
       }
     }
 };

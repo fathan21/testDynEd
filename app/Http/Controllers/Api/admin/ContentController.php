@@ -90,6 +90,7 @@ class ContentController extends Controller
 				->join('menu','menu.id','=','posts.menu_id')
 				->join('menu as menu_p','menu_p.id','=','menu.parent','left')
 				->whereNull('posts.deleted_at')->where('posts.id',$id)->first();
+
 		$data = $this->_model
 			->select('posts.created_at','posts.id','user.full_name as writer','posts.type','content.photographer',
 						'title','posts.status','menu.name as category','content.publish_date',	
@@ -97,7 +98,7 @@ class ContentController extends Controller
 						'menu.id as category_id','parent_m.id as category_parent_id',
 						'galery_id','video'
 					);
-		if($article->type == 'article' || $article->type ==' video'){
+		if($article->type == 'article' || $article->type =='video'){
 			
 			$data = $data->join('content','posts.id','=','content.posts_id')
 					->join('posts_meta','posts.id','=','posts_meta.posts_id')
@@ -271,7 +272,7 @@ class ContentController extends Controller
 		$files = $request->file("file");
 		$input = $request->input();
 
-		$input_galery_id = $input['galery_id'];
+		$input_galery_id = isset($input['galery_id'])?$input['galery_id']:array();
 
 		$data = array();
 		foreach ($input_galery_id as $v) {
@@ -283,7 +284,8 @@ class ContentController extends Controller
 
 			$filename = Galery::slug($input['name']).'_'.time().$k.".".$file->getClientOriginalExtension();
 	        $file->move(public_path('assets/img/galery'), $filename);
-
+	        //$file->move('/home/jacatran/public_html/assets/img/galery', $filename);
+	        ///
 	        $in = new Galery;
 	        $in->name = $filename;
 	        $in->img = $filename;

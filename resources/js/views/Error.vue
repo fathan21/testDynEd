@@ -1,6 +1,8 @@
 <template>
-  <div class="">
-    Err Q
+  <div class="" style="text-align:center;padding:100px; 0px;" >
+    <h1 style="color:#808080">
+    	Page Not found
+    </h1>
   </div>
 </template>
 

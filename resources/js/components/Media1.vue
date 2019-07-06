@@ -2,10 +2,7 @@
     <div class="media">
         <div class="media-left">
             <router-link :to="data.link">
-                
-                <div class="skeleton" style="width:80px;height:80px;background-size:cover" v-bind:style="{ 'background-image': 'url(' + data.img + ')' }">
-
-                </div>
+                <img :alt="data.title" style="width:80px" src="/assets/img/img-def-min.png" v-lazy="data.img">
             </router-link>
         </div>
         <!--media-left-->

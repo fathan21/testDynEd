@@ -32,12 +32,17 @@ Route::group(['prefix' => 'v1','namespace' => 'Api'], function($app)
 //Route::group(['prefix' => 'v1/admin', 'middleware' => ['auth:api', 'owner']], function(){
 Route::group(['prefix' => 'v1/admin','namespace' => 'Api\admin', 'middleware' => ['cors']], function($app){
   $app->any('/login','AuthController@login');
+  $app->any('/forgot_password','AuthController@forgot_password');
+  $app->any('/test','AuthController@test');
+});
+
+Route::group(['prefix' => 'v1/admin','namespace' => 'Api\admin', 'middleware' => ['cors','apiToken']], function($app){
   $app->resource('/users','UserController');
   $app->resource('/galery','GaleryController');
   $app->post('/galery/upload','GaleryController@upload');
   $app->resource('/video','VideoController');
   $app->resource('/content','ContentController');
-  $app->resource('/headline','HeadLineController');
+  $app->resource('/headline','HeadlineController');
   $app->post('/content_upload','ContentController@upload');
   $app->get('/content_category','ContentController@getCategoryMenu');
 
