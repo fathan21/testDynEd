@@ -269,6 +269,7 @@ class SettingController extends Controller
                      b.*,
                      a.*,
                      c.*,
+                     c.photographer as sumber,
                      c.publish_date as date, a.title,
                      a.content,
                      e.full_name as writer
@@ -304,12 +305,9 @@ class SettingController extends Controller
                      AND  a.id = '$id' ";
 
         }
-
         $q = DB::select(DB::raw($q));
         $q = isset($q[0])?$q[0]:array();
         $q = json_decode(json_encode($q),true);
-
-
 
         if($type=='article' && isset($q['id'])){
             // cek content slide
