@@ -58,7 +58,7 @@ class ContentController extends Controller
 			});
 		}
 
-		$data = $data->skip($offset)->take($limit)->orderBy('created_at','desc')->paginate();
+		$data = $data->skip($offset)->take($limit)->orderBy('created_at','desc')->paginate($limit);
 
 		$data = json_decode(json_encode($data),true);
 		//print_r($data);die();

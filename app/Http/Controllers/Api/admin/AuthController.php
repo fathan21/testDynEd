@@ -136,6 +136,87 @@ class AuthController extends Controller
 
         return $res;
     }
+    public function getNav(Request $request)
+    {
+        $token = $request->header('Token');
+        $user = User::where('token', $token)->first();
+        $data = array();
+        if(!isset($user->id)){
+            $res = array(
+                "status"=>"200",
+                "error"=>false,
+                "msg"=>'user not found',
+                'data'=>array(),
+            );
+            return $res;
+        }
+
+
+        $data = array(
+            array(
+                'name'=>'Content',
+                'url'=>'/content',
+                'icon'=>'fa fa-list',
+                'badge'=>array(
+                        'variant'=>'',
+                        'text'=>''
+                    )
+            ),
+            array(
+                'name'=>'Headline',
+                'url'=>'/headline',
+                'icon'=>'fa fa-home',
+                'badge'=>array(
+                        'variant'=>'',
+                        'text'=>''
+                    )
+            )
+        );
+        
+        if($user->user_group_id == 1){
+            $admin_data = array(
+
+                array(
+                    'name'=>'Gambar',
+                    'url'=>'/galery',
+                    'icon'=>'fa fa-image',
+                    'badge'=>array(
+                            'variant'=>'',
+                            'text'=>''
+                        )
+                ),
+                array(
+                    'name'=>'Users',
+                    'url'=>'/users',
+                    'icon'=>'icon-user',
+                    'badge'=>array(
+                            'variant'=>'',
+                            'text'=>''
+                        )
+                ),
+                array(
+                    'name'=>'Category',
+                    'url'=>'/category',
+                    'icon'=>'fa fa-cube',
+                    'badge'=>array(
+                            'variant'=>'',
+                            'text'=>''
+                        )
+                ),
+            );
+
+            $data = array_merge($admin_data,$data);
+        }
+
+        $res = array(
+                "status"=>"200",
+                "error"=>false,
+                "msg"=>'success',
+                'data'=>$data,
+        );
+        return $res;
+
+    }
 
     public function test(Request $request)
     {

@@ -156,8 +156,8 @@ class SettingController extends Controller
                     $galery = Galery::find($new_q->galery_id);
                     //$new_q->img = $this->base_img."/".$galery->img;
                     $img_u = public_path('assets/img/galery/'.$galery->img);
-                    $img_u =  Image::make($img_u)->fit(80)->encode('data-url');
-                    $new_q->img = $img_u->encoded;
+                    $img_u =  url('img/'.$galery->img.'/80/80');//Image::make($img_u)->fit(80)->encode('data-url');
+                    $new_q->img = $img_u;//$img_u->encoded;
                 }else{
                     $video = explode("/", $new_q->video);
                     $new_q->img = 'https://img.youtube.com/vi/'.end($video).'/hqdefault.jpg';
@@ -176,8 +176,8 @@ class SettingController extends Controller
                     $galery = Galery::find($news_q[0]->galery_id);
                     //$news_q[0]->img = $this->base_img."/".$galery->img;
                     $img_u = public_path('assets/img/galery/'.$galery->img);
-                    $img_u =  Image::make($img_u)->fit(600,500)->encode('data-url');
-                    $news_q[0]->img = $img_u->encoded;
+                    $img_u = url('img/'.$galery->img.'/600/500');// Image::make($img_u)->fit(600,500)->encode('data-url');
+                    $news_q[0]->img = $img_u;//$img_u->encoded;
                 }else{
                     $video = explode("/", $news_q[0]->video);
                     $news_q[0]->img = 'https://img.youtube.com/vi/'.end($video).'/hqdefault.jpg';
@@ -344,7 +344,7 @@ class SettingController extends Controller
     public function getPopularId()
     {
 
-        $last_30 = date("Y-m-d", strtotime("-14 days"));
+        $last_30 = date("Y-m-d", strtotime("-7 days"));
         $now = date('Y-m-d');
 
         $q = "  
@@ -354,6 +354,7 @@ class SettingController extends Controller
                 WHERE 
                 a.posts_id != ''
                     AND ( b.type = 'article' || b.type = 'video' )
+                    AND (b.created_at BETWEEN '$last_30' AND '$now' )
                 GROUP by a.posts_id
                 ORDER by ctn DESC
                 LIMIT 5
@@ -423,8 +424,8 @@ class SettingController extends Controller
                     $galery = Galery::find($new_q->galery_id);
                     //$new_q->img = $this->base_img."/".$galery->img;
                     $img_u = public_path('assets/img/galery/'.$galery->img);
-                    $img_u =  Image::make($img_u)->fit(80)->encode('data-url');
-                    $new_q->img = $img_u->encoded;
+                    $img_u =  url('img/'.$galery->img.'/80/80');//Image::make($img_u)->fit(80)->encode('data-url');
+                    $new_q->img = $img_u;//$img_u->encoded;
                 }else{
                     $video = explode("/", $new_q->video);
                     $new_q->img = 'https://img.youtube.com/vi/'.end($video).'/hqdefault.jpg';
@@ -450,8 +451,8 @@ class SettingController extends Controller
                     $galery = Galery::find($new_q->galery_id);
                     //$new_q->img = $this->base_img."/".$galery->img;
                     $img_u = public_path('assets/img/galery/'.$galery->img);
-                    $img_u =  Image::make($img_u)->fit(80)->encode('data-url');
-                    $new_q->img = $img_u->encoded;
+                    $img_u =  url('img/'.$galery->img.'/80/80');//Image::make($img_u)->fit(80)->encode('data-url');
+                    $new_q->img = $img_u;
                 }else{
                     $video = explode("/", $new_q->video);
                     $new_q->img = 'https://img.youtube.com/vi/'.end($video).'/hqdefault.jpg';
@@ -473,8 +474,8 @@ class SettingController extends Controller
                     $galery = Galery::find($new_q->galery_id);
                     //$new_q->img = $this->base_img."/".$galery->img;
                     $img_u = public_path('assets/img/galery/'.$galery->img);
-                    $img_u =  Image::make($img_u)->fit(80)->encode('data-url');
-                    $new_q->img = $img_u->encoded;
+                    $img_u =  url('img/'.$galery->img.'/80/80');//Image::make($img_u)->fit(80)->encode('data-url');
+                    $new_q->img = $img_u;
                 }else{
                     $video = explode("/", $new_q->video);
                     $new_q->img = 'https://img.youtube.com/vi/'.end($video).'/hqdefault.jpg';
@@ -555,10 +556,10 @@ class SettingController extends Controller
                             //$main->img = $this->base_img."/".$galery->img;
 
 		                    $img_u = public_path('assets/img/galery/'.$galery->img);
-                            $img_u_m =  Image::make($img_u)->fit(600,500)->encode('data-url');
-		                    $img_u =  Image::make($img_u)->fit(600,300)->encode('data-url');
-		                    $main->img = $img_u->encoded;
-                            $main->img_m = $img_u_m->encoded;
+                            $img_u_m = url('img/'.$galery->img.'/600/500'); //Image::make($img_u)->fit(600,500)->encode('data-url');
+		                    $img_u =  url('img/'.$galery->img.'/600/300');//Image::make($img_u)->fit(600,300)->encode('data-url');
+		                    $main->img = $img_u;//$img_u->encoded;
+                            $main->img_m = $img_u_m;//$img_u_m->encoded;
                         }else{
                             $video = explode("/", $main->video);
                             $main->img = 'https://img.youtube.com/vi/'.end($video).'/hqdefault.jpg';
@@ -575,10 +576,10 @@ class SettingController extends Controller
                             // $main->img = $this->base_img.'/'.$img->img;
 
 		                    $img_u = public_path('assets/img/galery/'.$img->img);
-                            $img_u_m =  Image::make($img_u)->fit(600,500)->encode('data-url');
-		                    $img_u =  Image::make($img_u)->fit(600,300)->encode('data-url');
-		                    $main->img = $img_u->encoded;
-                            $main->img_m = $img_u_m->encoded;
+                            $img_u_m =  url('img/'.$img->img.'/600/500');//Image::make($img_u)->fit(600,500)->encode('data-url');
+		                    $img_u =  url('img/'.$img->img.'/600/500');//Image::make($img_u)->fit(600,300)->encode('data-url');
+		                    $main->img = $img_u;//$img_u->encoded;
+                            $main->img_m = $img_u_m;//$img_u_m->encoded;
                         }else{
                             $video = explode("/", $main->video);
                             $main->img = 'https://img.youtube.com/vi/'.end($video).'/hqdefault.jpg';
@@ -600,9 +601,9 @@ class SettingController extends Controller
                         $galery = Galery::find($new_q->galery_id);
                         //$new_q->img = $this->base_img."/".$galery->img;
                         $img_u = public_path('assets/img/galery/'.$galery->img);
-                        $img_u =  Image::make($img_u)->fit(408,306)->encode('data-url');
+                        $img_u = '';// Image::make($img_u)->fit(408,306)->encode('data-url');
 
-                        $new_q->img = $img_u->encoded;
+                        $new_q->img =url('img/'.$galery->img.'/408/306'); //$img_u->encoded;
                     }else{
                         $video = explode("/", $new_q->video);
                         $new_q->img = 'https://img.youtube.com/vi/'.end($video).'/hqdefault.jpg';
@@ -618,9 +619,9 @@ class SettingController extends Controller
                         $img = DB::table('galery')->where('id',$galery[0])->first();
                         //$new_q->img = $this->base_img."/".$galery->img;
                         $img_u = public_path('assets/img/galery/'.$img->img);
-                        $img_u =  Image::make($img_u)->fit(408,306)->encode('data-url');
+                        $img_u =  '';//Image::make($img_u)->fit(408,306)->encode('data-url');
 
-                        $new_q->img = $img_u->encoded;
+                        $new_q->img =url('img/'.$img->img.'/408/306');// $img_u->encoded;
                     }else{
                         $video = explode("/", $new_q->video);
                         $new_q->img = 'https://img.youtube.com/vi/'.end($video).'/hqdefault.jpg';
@@ -672,10 +673,10 @@ class SettingController extends Controller
                         //$new_q->img = $this->base_img."/".$galery->img;
                          //$new_q->img = $this->base_img."/".$galery->img;
 	                    $img_u = public_path('assets/img/galery/'.$galery->img);
-                        $img_u_m =  Image::make($img_u)->fit(600,500)->encode('data-url');
-	                    $img_u =  Image::make($img_u)->fit(600,300)->encode('data-url');
-	                    $new_q->img = $img_u->encoded;
-                        $new_q->img_m = $img_u_m->encoded;
+                        //$img_u_m =  Image::make($img_u)->fit(600,500)->encode('data-url');
+	                    //$img_u =  Image::make($img_u)->fit(600,300)->encode('data-url');
+	                    $new_q->img =url('img/'.$galery->img.'/600/300');// $img_u->encoded;
+                        $new_q->img_m = url('img/'.$galery->img.'/600/500');//$img_u_m->encoded;
                     }else{
                         $video = explode("/", $new_q->video);
                         $new_q->img = 'https://img.youtube.com/vi/'.end($video).'/hqdefault.jpg';
@@ -690,10 +691,10 @@ class SettingController extends Controller
                         $galery = explode(",", $new_q->img);
                         $img = DB::table('galery')->where('id',$galery[0])->first();
 	                    $img_u = public_path('assets/img/galery/'.$img->img);
-                        $img_u_m =  Image::make($img_u)->fit(600,500)->encode('data-url');
-	                    $img_u =  Image::make($img_u)->fit(600,300)->encode('data-url');
-	                    $new_q->img = $img_u->encoded;
-                        $new_q->img_m = $img_u_m->encoded;
+                        //$img_u_m =  Image::make($img_u)->fit(600,500)->encode('data-url');
+	                    //$img_u =  Image::make($img_u)->fit(600,300)->encode('data-url');
+	                    $new_q->img = url('img/'.$galery->img.'/600/300');//$img_u->encoded;
+                        $new_q->img_m = url('img/'.$galery->img.'/600/500');//$img_u_m->encoded;
                     }else{
                         $video = explode("/", $new_q->video);
                         $new_q->img = 'https://img.youtube.com/vi/'.end($video).'/hqdefault.jpg';
@@ -813,8 +814,8 @@ class SettingController extends Controller
                     //$new_q->img = $this->base_img."/".$galery->img; 
                     // ->encode('jpg', 75)
                     $img_u = public_path('assets/img/galery/'.$galery->img);
-                    $img_u =  Image::make($img_u)->fit(80)->encode('data-url');
-                    $new_q->img = $img_u->encoded;
+                    $img_u = url('img/'.$galery->img.'/80/80');//Image::make($img_u)->fit(80)->encode('data-url');
+                    $new_q->img = $img_u;//$img_u->encoded;
                 }else{
                     $video = explode("/", $new_q->video);
                     $new_q->img = 'https://img.youtube.com/vi/'.end($video).'/hqdefault.jpg';

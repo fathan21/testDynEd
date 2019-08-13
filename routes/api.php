@@ -37,13 +37,16 @@ Route::group(['prefix' => 'v1/admin','namespace' => 'Api\admin', 'middleware' =>
 });
 
 Route::group(['prefix' => 'v1/admin','namespace' => 'Api\admin', 'middleware' => ['cors','apiToken']], function($app){
+  $app->get('/nav','AuthController@getNav');
   $app->resource('/users','UserController');
   $app->resource('/galery','GaleryController');
   $app->post('/galery/upload','GaleryController@upload');
   $app->resource('/video','VideoController');
   $app->resource('/content','ContentController');
+  $app->resource('/categories','MenuController');
   $app->resource('/headline','HeadlineController');
   $app->post('/content_upload','ContentController@upload');
   $app->get('/content_category','ContentController@getCategoryMenu');
+  $app->get('/categories_parent','MenuController@getCategoryParent');
 
 });

@@ -34,7 +34,7 @@ class VideoController extends Controller
 			});
 		}
 
-		$data = $data->skip($offset)->take($limit)->orderBy('created_at','desc')->paginate();
+		$data = $data->skip($offset)->take($limit)->orderBy('created_at','desc')->paginate($limit);
 			
 		return $data;
 	}

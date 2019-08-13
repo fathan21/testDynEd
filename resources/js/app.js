@@ -38,7 +38,7 @@ window.Vue.filter('toDateIndo', function (value) {
 	let dateRight = new Date(value);
 	let difH = differenceInHours(dateLeft, dateRight);
 	if(difH > 24){
-	    return `${format(value,'DD MMM YYYY')}`;
+	    return `${format(value,'DD/MM/YYYY HH:mm')}`;
 	}else{
 	    return `${format(value,'HH:mm DD MMM YYYY')}`;
 	}

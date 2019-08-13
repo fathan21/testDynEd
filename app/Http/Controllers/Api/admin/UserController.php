@@ -34,7 +34,7 @@ class UserController extends Controller
 			});
 		}
 
-		$data = $data->skip($offset)->take($limit)->paginate();
+		$data = $data->skip($offset)->take($limit)->paginate($limit);
 
 		return $data;
 	}
@@ -63,7 +63,7 @@ class UserController extends Controller
 	{
 		$input = $request->input();
 
-        $input = $request->only(['email', 'password','full_name']);
+        $input = $request->only(['email', 'password','full_name','user_group_id']);
         $validation = Validator::make($input, [
                 'full_name' => 'required|min:2',
                 'email' => 'required|email|unique:user,email,'.$id, // unique:users
@@ -84,6 +84,7 @@ class UserController extends Controller
 
         $data->email = $input['email'];
         $data->full_name = $input['full_name'];
+        $data->user_group_id = $input['user_group_id'];
         if(isset($input['password'])){
 	        $data->password =Hash::make($input['password']);
 

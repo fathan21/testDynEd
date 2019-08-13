@@ -18,6 +18,7 @@ class ApiToken {
         $token = $request->header('Token');
         if(empty($token)){
             return response()->json([
+                'error_code'=>'401',
                 'error' => 'Authorization Header is empty'
             ]);
         }
@@ -25,6 +26,7 @@ class ApiToken {
         $cek = User::where('token', $token)->first();
         if(empty($cek)){
             return response()->json([
+                'error_code'=>'401',
                 'error' => 'Forbidden : Invalid access token'
             ]);
         }

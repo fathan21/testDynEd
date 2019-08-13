@@ -10,6 +10,18 @@
                 <div class="col-md-9">
                     <div class="single_content_layout">
 
+                        <div class="item_wrapper" style="">
+                            <div class="news_item_title">
+                                <h1><a href="#">{{data.title}}</a></h1>
+                            </div>
+                            <div style="font-weight:bold;text-transform:uppercase;height:15px">
+                                    <router-link class="page-scroll" :to="'/search?writer='+data.writer" style="color:#635959">{{data.writer}}</router-link>
+                            </div>
+                            <div class="item_meta" v-if="data.date">
+                                jacatra.net - 
+                                <a href="#">{{data.date | toDateIndo }},</a> 
+                            </div>
+                        </div>
                         <div class="item feature_news_item"  style="postion:relative">
                             <div class="item_img" v-if="data.img && data.type_page !='galery' ">
                                 <img class="img-responsive" src="/assets/img/img-def-min.png" v-lazy="data.img" :alt="data.title"  style="width:100%;">
@@ -40,13 +52,7 @@
                             <div class="item_meta" v-if="data.sumber" style="text-align:left;paddinf-left:5px;">{{data.sumber}}</div>
                             <!--item_img-->
                             <div class="item_wrapper">
-                                <div class="news_item_title">
-                                    <h1><a href="#">{{data.title}}</a></h1>
-                                </div>
-                                <!--news_item_title-->
-                                <div class="item_meta" v-if="data.date"><a href="#">{{data.date | toDateIndo }},</a> by:
-                                    <router-link class="page-scroll" :to="'/search?writer='+data.writer">{{data.writer}}</router-link>
-                                </div>
+                                
                                 <!--
                                 <span class="rating">
                                     <i class="fa fa-star"></i>
