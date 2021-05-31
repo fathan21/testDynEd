@@ -39,14 +39,8 @@
     <style>
       .media h3.media-heading{
         font-size: 15px;
-        max-height: 40px;
-        overflow: hidden;
-        /* text-overflow: ellipsis; */
         overflow: hidden;
         word-break: break-word;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
         font-size:15px;
       }
       .news_item_title h2 {

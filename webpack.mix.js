@@ -17,7 +17,7 @@ const mix = require('laravel-mix');
 
 // Override mix internal webpack output configuration
 mix.config.webpackConfig.output = {
-    chunkFilename: 'assets/vue/[name].bundle.js',
+    chunkFilename: 'assets/vue/[name]-[hash].bundle.js',
     publicPath: '/',
 };
 

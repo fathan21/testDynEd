@@ -1,7 +1,7 @@
 <template>
     <div class="item">
         <div class="video_thumb" style="text-align:center">
-                <div  class="lazy skeleton item_img_background" style="width:90%;background-size:cover" v-bind:style="{ 'background-image': 'url(' + data.img + ')' }">
+                <div  class="lazy skeleton item_img_background" style="width:90%;background-size:cover; background-color:rgb(242 241 241);" v-bind:style="{ 'background-image': 'url(' + img + ')' }">
 
                 </div>
         </div>
@@ -24,9 +24,11 @@
 export default {
     name: 'Media4',
     props: ['data'],
-    created: function() {
-
-    },
+    computed: {
+        img: function() {
+            return this.data.img;
+        }
+    }
 };
 
 </script>

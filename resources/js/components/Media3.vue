@@ -2,7 +2,7 @@
     <div class="media">
         <div class="media-left">
             <router-link :to="data.link">
-                <img :alt="data.title" style="width:80px" :src="data.img">
+                <img :alt="data.title" style="width:80px" v-lazy="data.img" src="/assets/img/img-def-min.png ">
             </router-link>
         </div>
         <!--media-left-->

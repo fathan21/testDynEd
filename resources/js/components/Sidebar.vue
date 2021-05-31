@@ -2,15 +2,25 @@
   <div>
     <div class="tab sitebar">
         <ul class="nav nav-tabs">
-            <li v-bind:class="{'active':(tab_v === '#1')}"><a v-on:click="tab('#1', $event)">Latest</a></li>
-            <li v-bind:class="{'active':(tab_v === '#2')}"><a v-on:click="tab('#2', $event)" >Populer</a></li>
+            <li class="active"><a >Latest</a></li>
         </ul>
         <div class="tab-content">
-            <div class="tab-pane" v-bind:class="{'active':(tab_v === '#1')}" id="1">
+            <div class="tab-pane active">
                 <Media1 v-for="item in getSidebar.latest" :data="item" v-bind:key="item.id"></Media1>
             </div>
             <!--tab-pane-->
-            <div class="tab-pane" id="2" v-bind:class="{'active':(tab_v === '#2')}">
+        </div>
+        <!--tab-content-->
+    </div>
+    <!--tab-->
+    
+    <div class="tab sitebar">
+        <ul class="nav nav-tabs">
+            <li class="active"><a >Populer</a></li>
+        </ul>
+        <div class="tab-content">
+            <!--tab-pane-->
+            <div class="tab-pane active">
               <Media1 v-for="item in getSidebar.populer" :data="item" v-bind:key="item.id"></Media1>
             </div>
             <!--tab-pane-->
@@ -28,20 +38,6 @@
     
     <div class="ad">
     </div>
-    <!--
-    <div class="ad">
-        <img class="img-responsive" src="assets/img/img-ad2.jpg" alt="img" />
-    </div>
-    -->
-    <!--
-    <div class="most_comment">
-        <div class="sidebar_title">
-            <h2>Most Commented</h2>
-        </div>
-        <Media2 v-for="item in getSidebar.most_comment" :data="item" v-bind:key="item.id"></Media2>
-    </div>
-    -->
-    <!--most_comment-->
   </div>
 </template>
 <script>

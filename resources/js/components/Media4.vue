@@ -5,7 +5,7 @@
                 <div class="item_img">
 
                     <router-link :to="data.link">
-                        <img class="img-responsive" :src="data.img" :alt="data.title" style="width:100%" v-if="!isHeader">
+                        <img class="img-responsive" src="/assets/img/img-def-min.png " v-lazy="data.img" :alt="data.title" style="width:100%" v-if="!isHeader">
                     </router-link>
                 </div>
                 <!--item_img-->
@@ -55,7 +55,7 @@
                 <div class="item_img">
 
                     <router-link :to="data.link">
-                        <img class="img-responsive img" :src="getImgSrc()" :alt="data.title" style="width:100%" >
+                        <img class="img-responsive img"  v-lazy="getImgSrc()" :alt="data.title" style="width:100%"  src="/assets/img/img-def-min.png ">
                     </router-link>
                 </div>
                 <!--item_img-->

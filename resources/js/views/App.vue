@@ -21,11 +21,13 @@ export default {
 
     watch:{
         $route (to, from){
-            var meta_data =  (this.getSetting.menu).filter(function(hero) {
-                return hero.link == to.path;
-            });
-            if( (meta_data).length > 0 ){
-                this.meta.set(meta_data[0].meta);
+            if (this.getSetting.menu) {
+                var meta_data =  (this.getSetting.menu).filter(function(hero) {
+                    return hero.link == to.path;
+                });
+                if( (meta_data).length > 0 ){
+                    this.meta.set(meta_data[0].meta);
+                }
             }
         }
     },

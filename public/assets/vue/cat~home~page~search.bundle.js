@@ -33,13 +33,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'Media1',
-  props: ['data'],
+  name: "Media1",
+  props: ["data"],
   created: function created() {}
 });
 
@@ -106,10 +102,6 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-//
-//
-//
-//
 //
 //
 //
@@ -239,44 +231,45 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "media" }, [
-    _c(
-      "div",
-      { staticClass: "media-left" },
-      [
-        _c("router-link", { attrs: { to: _vm.data.link } }, [
-          _c("img", {
-            directives: [
-              {
-                name: "lazy",
-                rawName: "v-lazy",
-                value: _vm.data.img,
-                expression: "data.img"
-              }
-            ],
-            staticStyle: { width: "80px" },
-            attrs: { alt: _vm.data.title, src: "/assets/img/img-def-min.png" }
-          })
-        ])
-      ],
-      1
-    ),
-    _vm._v(" "),
-    _c("div", { staticClass: "media-body" }, [
-      _c(
-        "h3",
-        { staticClass: "media-heading" },
-        [
-          _c("router-link", { attrs: { to: _vm.data.link } }, [
-            _vm._v(
-              "\n                " + _vm._s(_vm.data.title) + "\n            "
-            )
+  return _c(
+    "div",
+    { staticClass: "media" },
+    [
+      _c("router-link", { attrs: { to: _vm.data.link } }, [
+        _c(
+          "div",
+          { staticClass: "media-left" },
+          [
+            _c("router-link", { attrs: { to: _vm.data.link } }, [
+              _c("img", {
+                directives: [
+                  {
+                    name: "lazy",
+                    rawName: "v-lazy",
+                    value: _vm.data.img,
+                    expression: "data.img"
+                  }
+                ],
+                staticStyle: { width: "80px" },
+                attrs: {
+                  alt: _vm.data.title,
+                  src: "/assets/img/img-def-min.png"
+                }
+              })
+            ])
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "media-body" }, [
+          _c("h3", { staticClass: "media-heading" }, [
+            _vm._v("\n        " + _vm._s(_vm.data.title) + "\n      ")
           ])
-        ],
-        1
-      )
-    ])
-  ])
+        ])
+      ])
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -387,57 +380,27 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", [
     _c("div", { staticClass: "tab sitebar" }, [
-      _c("ul", { staticClass: "nav nav-tabs" }, [
-        _c("li", { class: { active: _vm.tab_v === "#1" } }, [
-          _c(
-            "a",
-            {
-              on: {
-                click: function($event) {
-                  return _vm.tab("#1", $event)
-                }
-              }
-            },
-            [_vm._v("Latest")]
-          )
-        ]),
-        _vm._v(" "),
-        _c("li", { class: { active: _vm.tab_v === "#2" } }, [
-          _c(
-            "a",
-            {
-              on: {
-                click: function($event) {
-                  return _vm.tab("#2", $event)
-                }
-              }
-            },
-            [_vm._v("Populer")]
-          )
-        ])
-      ]),
+      _vm._m(0),
       _vm._v(" "),
       _c("div", { staticClass: "tab-content" }, [
         _c(
           "div",
-          {
-            staticClass: "tab-pane",
-            class: { active: _vm.tab_v === "#1" },
-            attrs: { id: "1" }
-          },
+          { staticClass: "tab-pane active" },
           _vm._l(_vm.getSidebar.latest, function(item) {
             return _c("Media1", { key: item.id, attrs: { data: item } })
           }),
           1
-        ),
-        _vm._v(" "),
+        )
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "tab sitebar" }, [
+      _vm._m(1),
+      _vm._v(" "),
+      _c("div", { staticClass: "tab-content" }, [
         _c(
           "div",
-          {
-            staticClass: "tab-pane",
-            class: { active: _vm.tab_v === "#2" },
-            attrs: { id: "2" }
-          },
+          { staticClass: "tab-pane active" },
           _vm._l(_vm.getSidebar.populer, function(item) {
             return _c("Media1", { key: item.id, attrs: { data: item } })
           }),
@@ -446,12 +409,28 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
-    _vm._m(0),
+    _vm._m(2),
     _vm._v(" "),
     _c("div", { staticClass: "ad" })
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("ul", { staticClass: "nav nav-tabs" }, [
+      _c("li", { staticClass: "active" }, [_c("a", [_vm._v("Latest")])])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("ul", { staticClass: "nav nav-tabs" }, [
+      _c("li", { staticClass: "active" }, [_c("a", [_vm._v("Populer")])])
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
